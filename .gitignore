@@ -54,3 +54,13 @@ app.*.map.json
 *.user
 *.userosscache
 *.sln.docstates
+
+# Supabase credentials (ÖNEMLİ!)
+lib/config/supabase_config.dart
+
+# Test/Debug files
+hata.jpg
+*.jpg
+*.png
+*.jpeg
+test_*

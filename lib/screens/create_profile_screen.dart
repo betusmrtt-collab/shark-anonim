@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../home_screen.dart';
 import '../config/supabase_config.dart';
 import '../utils/logger.dart';
 import '../services/file_security_service.dart';
 import '../services/input_security_service.dart';
+import '../services/storage_service.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
@@ -352,34 +350,14 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
       // 1. Avatar yükle (eğer varsa)
       String? avatarUrl;
       if (_avatarImage != null) {
-        AppLogger.storage.info('Avatar yükleniyor...');
-        final avatarFile = File(_avatarImage!);
-        final avatarFileName = 'avatar_$userId.${_avatarImage!.split('.').last}';
-        await SupabaseConfig.client.storage
-            .from('avatars')
-            .upload(avatarFileName, avatarFile, fileOptions: FileOptions(upsert: true));
-        avatarUrl = SupabaseConfig.client.storage.from('avatars').getPublicUrl(avatarFileName);
-        AppLogger.storage.success('Avatar yüklendi: $avatarFileName');
+        avatarUrl = await StorageService.uploadAvatar(_avatarImage!, userId);
       }
 
       // 2. Sesli biyografi yükle (eğer varsa)
       String? voiceBioUrl;
       if (_voiceBioPath != null && _voiceBioPath!.isNotEmpty && !_voiceBioPath!.startsWith('mock_')) {
         // Gerçek ses dosyası varsa yükle (mock değilse)
-        AppLogger.storage.info('Sesli biyografi yükleniyor...');
-        final voiceFile = File(_voiceBioPath!);
-
-        // Dosya var mı kontrol et
-        if (await voiceFile.exists()) {
-          final voiceFileName = 'voice_bio_$userId.m4a';
-          await SupabaseConfig.client.storage
-              .from('voice_bios')
-              .upload(voiceFileName, voiceFile, fileOptions: FileOptions(upsert: true));
-          voiceBioUrl = SupabaseConfig.client.storage.from('voice_bios').getPublicUrl(voiceFileName);
-          AppLogger.storage.success('Sesli biyografi yüklendi: $voiceFileName');
-        } else {
-          AppLogger.storage.warning('Ses dosyası bulunamadı, atlanıyor');
-        }
+        voiceBioUrl = await StorageService.uploadVoiceBio(_voiceBioPath!, userId);
       } else if (_voiceBioPath != null && _voiceBioPath!.startsWith('mock_')) {
         AppLogger.storage.info('Mock ses kaydı - Production\'da gerçek kayıt yapılacak');
         // Mock ses kaydı, şimdilik URL'i null bırak
@@ -406,14 +384,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
         final uploadFutures = <Future>[];
         for (int i = 0; i < _galleryImages.length; i++) {
           uploadFutures.add(() async {
-            final galleryFile = File(_galleryImages[i]);
-            final galleryFileName = 'gallery_${userId}_$i.${_galleryImages[i].split('.').last}';
-
-            await SupabaseConfig.client.storage
-                .from('gallery')
-                .upload(galleryFileName, galleryFile, fileOptions: FileOptions(upsert: true));
-
-            final galleryUrl = SupabaseConfig.client.storage.from('gallery').getPublicUrl(galleryFileName);
+            final galleryUrl = await StorageService.uploadGalleryImage(_galleryImages[i], userId, i);
 
             await SupabaseConfig.client.from('user_gallery').insert({
               'user_id': userId,
