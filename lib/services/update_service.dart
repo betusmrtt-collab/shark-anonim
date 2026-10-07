@@ -17,6 +17,41 @@ class UpdateService {
   // Cache süresi: 1 dakika (güncelleme kontrolü için daha sık kontrol)
   static const Duration _cacheDuration = Duration(minutes: 1);
 
+  /// Semantik versiyon karşılaştırması
+  /// current: 1.0.6, latest: 1.0.9 → true (güncelleme var)
+  /// current: 1.0.9, latest: 1.0.6 → false (geri gitme yok)
+  /// current: 1.0.6, latest: 1.0.6 → false (eşit)
+  bool _isNewerVersion(String current, String latest) {
+    try {
+      // Versiyon string'lerini parse et (örn: "1.0.6" → [1, 0, 6])
+      final currentParts = current.split('.').map((e) => int.tryParse(e) ?? 0).toList();
+      final latestParts = latest.split('.').map((e) => int.tryParse(e) ?? 0).toList();
+      
+      // Uzunlukları eşitle (1.0 vs 1.0.0 durumu için)
+      while (currentParts.length < 3) currentParts.add(0);
+      while (latestParts.length < 3) latestParts.add(0);
+      
+      // Sırayla karşılaştır: major, minor, patch
+      for (int i = 0; i < 3; i++) {
+        if (latestParts[i] > currentParts[i]) {
+          debugPrint('✅ Yeni versiyon mevcut: ${currentParts[i]} < ${latestParts[i]} (index $i)');
+          return true; // Yeni versiyon var
+        } else if (latestParts[i] < currentParts[i]) {
+          debugPrint('ℹ️ Mevcut versiyon daha yeni: ${currentParts[i]} > ${latestParts[i]} (index $i)');
+          return false; // Mevcut versiyon daha yeni (geri gitme yok)
+        }
+        // Eşitse bir sonraki part'a geç
+      }
+      
+      debugPrint('ℹ️ Versiyonlar eşit: $current == $latest');
+      return false; // Versiyonlar tamamen eşit
+    } catch (e) {
+      debugPrint('❌ Versiyon parse hatası: $e - String karşılaştırmasına geri dönülüyor');
+      // Parse hatası olursa basit string karşılaştırması yap
+      return current != latest;
+    }
+  }
+
   /// HIZLI kontrol - cache'den veya GitHub'dan
   /// İlk açılışta performansı etkilemez
   Future<Map<String, dynamic>?> checkForUpdate({bool forceCheck = false}) async {
@@ -65,9 +100,9 @@ class UpdateService {
 
         debugPrint('🆕 GitHub\'daki en son versiyon: $latestVersion');
 
-        // ✅ ZORUNLU GÜNCELLEME - versiyon farklıysa
-        if (currentVersion != latestVersion) {
-          debugPrint('🚨 ZORUNLU GÜNCELLEME GEREKLİ!');
+        // ✅ ZORUNLU GÜNCELLEME - yeni versiyon varsa (semantik karşılaştırma)
+        if (_isNewerVersion(currentVersion, latestVersion)) {
+          debugPrint('🚨 ZORUNLU GÜNCELLEME GEREKLİ! ($currentVersion → $latestVersion)');
           
           final apkAsset = (data['assets'] as List).firstWhere(
             (asset) => asset['name'].toString().endsWith('.apk'),
