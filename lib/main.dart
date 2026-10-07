@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'theme.dart';
 import 'login_screen.dart';
 import 'giris_screen.dart';
@@ -9,8 +10,11 @@ import 'services/app_initializer.dart';
 import 'services/update_service.dart';
 import 'widgets/mandatory_update_dialog.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load .env file
+  await dotenv.load(fileName: ".env");
 
   // Status bar ayarları - hemen uygula
   SystemChrome.setSystemUIOverlayStyle(

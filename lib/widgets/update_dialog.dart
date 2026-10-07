@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/update_service.dart';
+import '../utils/logger.dart';
 
 class UpdateDialog extends StatefulWidget {
   final Map<String, dynamic> updateInfo;
@@ -304,7 +305,7 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
       _downloading = true;
     });
 
-    print('🚀 Güncelleme indirme başlatılıyor...');
+    AppLogger.info('Güncelleme indirme başlatılıyor...', 'UPDATE');
 
     final filePath = await _updateService.downloadUpdate(
       widget.updateInfo['downloadUrl'],
@@ -316,7 +317,7 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
     );
 
     if (filePath != null && mounted) {
-      print('✅ İndirme tamamlandı, kurulum başlatılıyor...');
+      AppLogger.success('İndirme tamamlandı, kurulum başlatılıyor...', 'UPDATE');
       
       // Dialog'u kapat
       Navigator.pop(context);

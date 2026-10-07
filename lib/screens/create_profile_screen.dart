@@ -33,7 +33,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
 
   String? _voiceBioPath;
   bool _isRecording = false;
-  bool _isPlaying = false;
+  // Future feature: Voice playback
+  // bool _isPlaying = false;
   int _recordingSeconds = 0;
   bool _isLoading = false; // ✅ Loading state
 

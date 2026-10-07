@@ -1,24 +1,23 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as img;
 import '../utils/logger.dart';
 
 /// Dosya güvenlik ve validasyon servisi
 class FileSecurityService {
-  // İzin verilen MIME tipleri
-  static const List<String> _allowedImageMimeTypes = [
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp',
-  ];
+  // Future feature: MIME type validation
+  // static const List<String> _allowedImageMimeTypes = [
+  //   'image/jpeg',
+  //   'image/jpg',
+  //   'image/png',
+  //   'image/webp',
+  // ];
 
-  static const List<String> _allowedAudioMimeTypes = [
-    'audio/mp4',
-    'audio/m4a',
-    'audio/aac',
-    'audio/mpeg',
-  ];
+  // static const List<String> _allowedAudioMimeTypes = [
+  //   'audio/mp4',
+  //   'audio/m4a',
+  //   'audio/aac',
+  //   'audio/mpeg',
+  // ];
 
   // İzin verilen dosya uzantıları
   static const List<String> _allowedImageExtensions = [

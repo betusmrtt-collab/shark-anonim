@@ -1,14 +1,20 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SupabaseConfig {
-  // ✅ Production-ready credentials (Anon key is public by design)
-  static const String supabaseUrl = 'https://itgecaihhbyyrdwlmwoq.supabase.co';
-  static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0Z2VjYWloaGJ5eXJkd2xtd29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4ODkwOTgsImV4cCI6MjEwNjQ2NTA5OH0.-fS7KSz1cv8VYzjm0L-CRxapBB4MknRZoACNCm97-lM';
+  // ✅ Secure: Credentials loaded from .env file
+  static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
+  static String get supabaseAnonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 
   static Future<void> initialize() async {
+    if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
+      throw Exception('Supabase credentials not found in .env file');
+    }
+    
     await Supabase.initialize(
       url: supabaseUrl,
-      anonKey: supabaseAnonKey,
+      // ignore: deprecated_member_use
+      anonKey: supabaseAnonKey, // Using anonKey for backward compatibility
     );
   }
 

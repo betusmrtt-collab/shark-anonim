@@ -43,13 +43,14 @@ class AppLogger {
 
   /// Ana log fonksiyonu
   static void _log(String level, String message, [String? tag]) {
-    if (!_enableLogs && !kDebugMode) return;
+    // Production'da logları tamamen kapat
+    if (!kDebugMode && !_enableLogs) return;
 
     final timestamp = DateTime.now().toIso8601String().substring(11, 23); // HH:MM:SS.mmm
     final tagStr = tag != null ? '[$tag]' : '';
     final logMessage = '$timestamp $level $tagStr $message';
 
-    // Console'a yazdır
+    // Console'a yazdır (sadece debug mode'da)
     if (kDebugMode) {
       debugPrint(logMessage);
     }

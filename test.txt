@@ -1,0 +1,338 @@
+## 🛠️ ACİL YAPILMASI GEREKENLER
+
+### 1️⃣ API Key'leri Güvenli Hale Getir
+Şu anda hardcoded key'ler var. İki seçenek:
+
+A) Environment Variables (Önerilen)
+dart
+// .env dosyasından oku
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+
+B) Supabase Anon Key Zaten Güvenli mi?
+- ✅ Supabase Anon key public olabilir (RLS koruması varsa)
+- ❌ Ama Service Key asla public olmamalı
+
+Projenizde sadece Anon key var mı yoksa Service Key de var mı kontrol edelim?
+I will run the following command: cd /home/mrt/test/anonim && grep -r "service.*key\|service_role" --include="*.dart" lib/ 2>/dev/null (using tool: shell)
+Purpose: Service key var mı kontrol et
+
+
+Allow this action? Use 't' to trust (always allow) the 'shell' tool for the session. [y/n/t]:
+
+45% > t
+
+✓ Trusted: grep -r "service.*key\|service_role" --include="*.dart" lib/
+
+ - Completed in 0.12s
+
+> İyi haber! Service key yok, sadece Anon key var. 
+
+### 📊 SON DURUM
+
+| Kategori | Durum | Açıklama |
+|----------|-------|----------|
+| Çalışabilirlik | ✅ Sorunsuz | Flutter build çalışır durumda |
+| Güvenlik | ⚠️ Orta Risk | Anon key public (Supabase'de normal), ama best practice değil |
+| Kod Kalitesi | ⚠️ İyileştirme Gerekli | 57 debug log, 7 unused kod |
+| Git Güvenliği | ✅ İyi | .env gitignore'da |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+## 🎯 ÖNERİLER
+
+Hemen yapılmalı:
+1. ❌ Hardcoded key'leri .env'e taşı
+2. 🧹 Unused kod temizliği
+3. 🔇 Production build'de debug log'ları kapat
+
+Şimdi ne yapmak istersiniz?
+- [ ] API key'leri .env'e taşıyayım mı?
+- [ ] Kod temizliği yapayım mı?
+- [ ] Böyle devam edelim mi? (Anon key zaten güvenli sayılır)
+
+ ▸ Credits: 1.55 • Time: 1m 59s
+
+45% > hepsini yap
+
+> Tamamını düzeltiyorum! 🚀
+
+## 1️⃣ API Key'leri .env'e Taşıma
+I will run the following command: cd /home/mrt/test/anonim && grep "flutter_dotenv" pubspec.yaml (using tool: shell)
+Purpose: flutter_dotenv paketi var mı kontrol et
+
+
+Allow this action? Use 't' to trust (always allow) the 'shell' tool for the session. [y/n/t]:
+
+46% > t
+
+✓ Trusted: grep "flutter_dotenv" pubspec.yaml
+
+ - Completed in 0.9s
+
+Reading file: /home/mrt/test/anonim/pubspec.yaml, from line 1 to 50 (using tool: read)
+ ✓ Successfully read 2198 bytes from /home/mrt/test/anonim/pubspec.yaml
+ - Completed in 0.0s
+
+I'll modify the following file: pubspec.yaml (using tool: write)
+Purpose: flutter_dotenv paketini ekle
+
+  36, 36:   cupertino_icons: ^1.0.8
+  37, 37:   google_fonts: ^6.1.0
+  38, 38:   shared_preferences: ^2.3.3
+  39, 39:   supabase_flutter: ^2.8.0
+  40, 40:   image_picker: ^1.0.7
+  41, 41:   path_provider: ^2.1.2
+  42, 42:   image: ^4.1.7
+  43, 43:   http: ^1.6.0
+  44, 44:   package_info_plus: ^10.2.2
+  45, 45:   url_launcher: ^6.3.3
+  46, 46:   open_filex: ^4.5.0
++     47:   flutter_dotenv: ^5.1.0
+
+
+Allow this action? Use 't' to trust (always allow) the 'write' tool for the session. [y/n/t]:
+
+46% > t
+
+✓ Trusted: pubspec.yaml
+
+Updating: pubspec.yaml
+ - Completed in 0.1s
+
+Reading file: /home/mrt/test/anonim/pubspec.yaml, from line 50 to 80 (using tool: read)
+ ✓ Successfully read 1138 bytes from /home/mrt/test/anonim/pubspec.yaml
+ - Completed in 0.0s
+
+I'll modify the following file: pubspec.yaml (using tool: write)
+Purpose: .env dosyasını assets'e ekle
+
+  66, 66:   # The following line ensures that the Material Icons font is
+  67, 67:   # included with your application, so that you can use the icons in
+  68, 68:   # the material Icons class.
+  69, 69:   uses-material-design: true
+  70, 70: 
+- 71    :   # To add assets to your application, add an assets section, like this:
+- 72    :   # assets:
+- 73    :   #   - images/
++     71:   # Environment variables
++     72:   assets:
++     73:     - .env
+
+Updating: pubspec.yaml
+ - Completed in 0.1s
+
+I will run the following command: cd /home/mrt/test/anonim && flutter pub get 2>&1 | tail -10 (using tool: shell)
+Purpose: Paketleri yükle
+
+
+Allow this action? Use 't' to trust (always allow) the 'shell' tool for the session. [y/n/t]:
+
+47% > t
+
+✓ Trusted: tail -10
+
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  objective_c 9.5.0 (9.6.2 available)
+  record_use 0.6.0 (1.1.1 available)
+  shared_preferences 2.5.5 (2.5.6 available)
+  test_api 0.7.12 (0.7.14 available)
+  vector_math 2.4.0 (2.4.3 available)
+Changed 1 dependency!
+20 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+ - Completed in 2.592s
+
+I'll modify the following file: lib/config/supabase_config.dart (using tool: write)
+Purpose: Supabase config'i .env kullanacak şekilde güncelle
+
+   1,  1: import 'package:supabase_flutter/supabase_flutter.dart';
++      2: import 'package:flutter_dotenv/flutter_dotenv.dart';
+   2,  3: 
+   3,  4: class SupabaseConfig {
+-  4    :   // ✅ Production-ready credentials (Anon key is public by design)
+-  5    :   static const String supabaseUrl = 'https://itgecaihhbyyrdwlmwoq.supabase.co';
+-  6    :   static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0Z2VjYWloaGJ5eXJkd2xtd29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4ODkwOTgsImV4cCI6MjEwNjQ2NTA5OH0.-fS7KSz1cv8VYzjm0L-CRxapBB4MknRZoACNCm97-lM';
++      5:   // ✅ Secure: Credentials loaded from .env file
++      6:   static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
++      7:   static String get supabaseAnonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+   7,  8: 
+   8,  9:   static Future<void> initialize() async {
++     10:     if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
++     11:       throw Exception('Supabase credentials not found in .env file');
++     12:     }
++     13:     
+   9, 14:     await Supabase.initialize(
+  10, 15:       url: supabaseUrl,
+  11, 16:       anonKey: supabaseAnonKey,
+  12, 17:     );
+  13, 18:   }
+  14, 19: 
+  15, 20:   static SupabaseClient get client => Supabase.instance.client;
+  16, 21: }
+
+
+Allow this action? Use 't' to trust (always allow) the 'write' tool for the session. [y/n/t]:
+
+47% > t
+
+✓ Trusted: lib/config/supabase_config.dart
+
+Updating: lib/config/supabase_config.dart
+ - Completed in 0.4s
+
+Reading file: /home/mrt/test/anonim/lib/main.dart, all lines (using tool: read)
+ ✓ Successfully read 4102 bytes from /home/mrt/test/anonim/lib/main.dart
+ - Completed in 0.0s
+
+I'll modify the following file: lib/main.dart (using tool: write)
+Purpose: main.dart'a .env loader ekle
+
+   1,  1: import 'package:flutter/material.dart';
+   2,  2: import 'package:flutter/services.dart';
++      3: import 'package:flutter_dotenv/flutter_dotenv.dart';
+   3,  4: import 'theme.dart';
+   4,  5: import 'login_screen.dart';
+   5,  6: import 'giris_screen.dart';
+   6,  7: import 'home_screen.dart';
+   7,  8: import 'services/auth_service.dart';
+   8,  9: import 'services/app_initializer.dart';
+   9, 10: import 'services/update_service.dart';
+  10, 11: import 'widgets/mandatory_update_dialog.dart';
+  11, 12: 
+- 12    : void main() {
++     13: void main() async {
+  13, 14:   WidgetsFlutterBinding.ensureInitialized();
+  14, 15: 
++     16:   // Load .env file
++     17:   await dotenv.load(fileName: ".env");
++     18: 
+  15, 19:   // Status bar ayarları - hemen uygula
+  16, 20:   SystemChrome.setSystemUIOverlayStyle(
+  17, 21:     const SystemUiOverlayStyle(
+  18, 22:       statusBarColor: Colors.transparent,
+  19, 23:       statusBarIconBrightness: Brightness.dark,
+  20, 24:       systemNavigationBarColor: Color(0xFFF8F9FF),
+  21, 25:       systemNavigationBarIconBrightness: Brightness.dark,
+  22, 26:     ),
+  23, 27:   );
+  24, 28: 
+  25, 29:   // Servisleri arka planda başlat - uygulamayı bloklamadan
+  26, 30:   AppInitializer.initialize();
+  27, 31: 
+  28, 32:   runApp(const MyApp());
+  29, 33: }
+
+
+Allow this action? Use 't' to trust (always allow) the 'write' tool for the session. [y/n/t]:
+
+48% > t
+
+✓ Trusted: lib/main.dart
+
+Updating: lib/main.dart
+ - Completed in 0.3s
+
+Monthly request limit reached
+
+Upgrade your plan for increased limits.
+See https://kiro.dev/pricing
+
+The limits reset on 11/01.
+
+
+Allow this action? Use 't' to trust (always allow) the 'write' tool for the session. [y/n/t]:
+
+48% > t
+
+✓ Trusted: lib/main.dart
+
+Updating: lib/main.dart
+ ⋮ 
+ ● Execution failed after 0.0s:
+no occurrences of "import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'theme.dart';
+import 'login_screen.dart';
+import 'giris_screen.dart';
+import 'home_screen.dart';
+import 'services/auth_service.dart';
+import 'services/app_initializer.dart';
+import 'services/update_service.dart';
+import 'widgets/mandatory_update_dialog.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Status bar ayarları - hemen uygula
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Color(0xFFF8F9FF),
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+  // Servisleri arka planda başlat - uygulamayı bloklamadan
+  AppInitializer.initialize();
+
+  runApp(const MyApp());
+}" were found
+
+Monthly request limit reached
+
+Upgrade your plan for increased limits.
+See https://kiro.dev/pricing
+
+The limits reset on 11/01.
+
+
+Allow this action? Use 't' to trust (always allow) the 'write' tool for the session. [y/n/t]:
+
+48% > t
+
+✓ Trusted: lib/main.dart
+
+Updating: lib/main.dart
+ ⋮ 
+ ● Execution failed after 0.0s:
+no occurrences of "import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'theme.dart';
+import 'login_screen.dart';
+import 'giris_screen.dart';
+import 'home_screen.dart';
+import 'services/auth_service.dart';
+import 'services/app_initializer.dart';
+import 'services/update_service.dart';
+import 'widgets/mandatory_update_dialog.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Status bar ayarları - hemen uygula
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Color(0xFFF8F9FF),
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+  // Servisleri arka planda başlat - uygulamayı bloklamadan
+  AppInitializer.initialize();
+
+  runApp(const MyApp());
+}" were found
+
+Monthly request limit reached
+
+Upgrade your plan for increased limits.
+See https://kiro.dev/pricing
+
+The limits reset on 11/01.
+

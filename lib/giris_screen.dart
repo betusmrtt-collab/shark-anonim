@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'services/auth_service.dart';
 import 'services/input_security_service.dart';
-import 'home_screen.dart';
 import 'screens/create_profile_screen.dart';
 
 class GirisScreen extends StatefulWidget {
@@ -37,17 +35,16 @@ class _GirisScreenState extends State<GirisScreen> with TickerProviderStateMixin
   // Password match tracking
   bool _passwordsMatch = true;
   
-  // Used usernames tracking
-  final Set<String> _usedUsernames = {};
-
-  final List<String> _randomHandles = [
-    'fısıltı_',
-    'akustik_',
-    'yankı_dalga',
-    'gece_frekansı',
-    'aurora_77',
-    'izole_ses'
-  ];
+  // Future feature: Random username generation
+  // final Set<String> _usedUsernames = {};
+  // final List<String> _randomHandles = [
+  //   'fısıltı_',
+  //   'akustik_',
+  //   'yankı_dalga',
+  //   'gece_frekansı',
+  //   'aurora_77',
+  //   'izole_ses'
+  // ];
 
   void _calculatePasswordStrength(String password) {
     if (password.isEmpty) {
@@ -99,26 +96,27 @@ class _GirisScreenState extends State<GirisScreen> with TickerProviderStateMixin
     });
   }
 
-  void _generateRandomUsername() {
-    final random = Random();
-    String newUsername;
-    int attempts = 0;
-    
-    do {
-      final handle = _randomHandles[random.nextInt(_randomHandles.length)];
-      if (handle.endsWith('_')) {
-        newUsername = '$handle${100 + random.nextInt(900)}';
-      } else {
-        newUsername = handle;
-      }
-      attempts++;
-    } while (_usedUsernames.contains(newUsername) && attempts < 100);
-    
-    _usedUsernames.add(newUsername);
-    setState(() {
-      _usernameController.text = newUsername;
-    });
-  }
+  // Future feature: Random username generator
+  // void _generateRandomUsername() {
+  //   final random = Random();
+  //   String newUsername;
+  //   int attempts = 0;
+  //   
+  //   do {
+  //     final handle = _randomHandles[random.nextInt(_randomHandles.length)];
+  //     if (handle.endsWith('_')) {
+  //       newUsername = '$handle${100 + random.nextInt(900)}';
+  //     } else {
+  //       newUsername = handle;
+  //     }
+  //     attempts++;
+  //   } while (_usedUsernames.contains(newUsername) && attempts < 100);
+  //   
+  //   _usedUsernames.add(newUsername);
+  //   setState(() {
+  //     _usernameController.text = newUsername;
+  //   });
+  // }
   
   @override
   void initState() {

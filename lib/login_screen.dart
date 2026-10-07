@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'services/auth_service.dart';
 import 'services/input_security_service.dart';
 import 'services/update_service.dart';
-import 'widgets/update_dialog.dart';
 import 'widgets/mandatory_update_dialog.dart';
 import 'home_screen.dart';
 import 'forgot_password_screen.dart';
