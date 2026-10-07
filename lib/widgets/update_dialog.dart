@@ -36,7 +36,7 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400, maxHeight: 600),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
@@ -126,7 +126,8 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
               ),
 
               // 📝 Content - Scrollable
-              Flexible(
+              Container(
+                constraints: const BoxConstraints(maxHeight: 250),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -135,7 +136,6 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
                       // Release Notes
                       Container(
                         width: double.infinity,
-                        constraints: const BoxConstraints(maxHeight: 200),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.05),
@@ -144,14 +144,12 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
                             color: const Color(0xFF00D9FF).withOpacity(0.2),
                           ),
                         ),
-                        child: SingleChildScrollView(
-                          child: Text(
-                            _formatReleaseNotes(widget.updateInfo['releaseNotes'] ?? 'Yeni özellikler ve iyileştirmeler'),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white.withOpacity(0.9),
-                              height: 1.5,
-                            ),
+                        child: Text(
+                          _formatReleaseNotes(widget.updateInfo['releaseNotes'] ?? 'Yeni özellikler ve iyileştirmeler'),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withOpacity(0.9),
+                            height: 1.5,
                           ),
                         ),
                       ),
