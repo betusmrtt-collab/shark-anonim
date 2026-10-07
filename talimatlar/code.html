@@ -1,0 +1,616 @@
+<!DOCTYPE html><html class="h-full dark" lang="tr" style="min-height: 100vh; height: 100%; background-color: #0b0f19;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<meta content="mobile_tab" name="shell-type">
+<title>Stitches • Cyber Cosmic Resonance</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Sora:wght@400;600;700;800&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#ff2e63",
+        "primary-container": "#ff6b8b",
+        "primary-fixed": "#ffd9dd",
+        "primary-fixed-dim": "#ffb2bd",
+        "secondary": "#ff9a3c",
+        "secondary-container": "#fc9d41",
+        "tertiary": "#00f0ff",
+        "tertiary-container": "#15a7eb",
+        "cyber-violet": "#9d4edd",
+        "surface": "#0b0f19",
+        "surface-container": "#131b2e",
+        "surface-container-high": "#1a253e",
+        "surface-container-highest": "#243253",
+        "surface-container-low": "#0e1526",
+        "surface-container-lowest": "#070a12",
+        "on-surface": "#f1f5f9",
+        "on-surface-variant": "#94a3b8"
+      },
+      fontFamily: {
+        "sora": ["Sora", "sans-serif"],
+        "jakarta": ["Plus Jakarta Sans", "sans-serif"],
+        "space": ["Space Grotesk", "sans-serif"]
+      }
+    }
+  }
+}
+</script>
+<style>
+@layer base {
+  html, body {
+    margin: 0; padding: 0; min-height: 100%; -webkit-tap-highlight-color: transparent;
+  }
+  .pb-safe { padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px); }
+  .pt-safe { padding-top: max(env(safe-area-inset-top, 0px), 10px); }
+}
+::-webkit-scrollbar { display: none; }
+
+/* Custom Futuristic Animations */
+@keyframes neonPulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); filter: drop-shadow(0 0 14px rgba(255,46,99,0.6)); }
+  50% { opacity: 0.95; transform: scale(1.04); filter: drop-shadow(0 0 26px rgba(0,240,255,0.8)); }
+}
+
+@keyframes holographicBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes laserWave {
+  0% { height: 6px; }
+  50% { height: 32px; }
+  100% { height: 10px; }
+}
+
+@keyframes shimmerSlide {
+  0% { transform: translateX(-150%); }
+  50%, 100% { transform: translateX(150%); }
+}
+
+@keyframes floatCosmic {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(1.5deg); }
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.anim-border-flow {
+  background: linear-gradient(115deg, #ff2e63, #ff9a3c, #00f0ff, #9d4edd, #ff2e63);
+  background-size: 300% 300%;
+  animation: holographicBorder 3.5s linear infinite;
+}
+
+.anim-neon-pulse {
+  animation: neonPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.anim-float {
+  animation: floatCosmic 4s ease-in-out infinite;
+}
+
+.anim-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.anim-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: translateX(-100%);
+  animation: shimmerSlide 2.5s infinite;
+}
+
+.anim-orbit {
+  animation: orbitSpin 6s linear infinite;
+}
+
+.wave-bar-1 { animation: laserWave 0.75s ease-in-out infinite alternate; }
+.wave-bar-2 { animation: laserWave 1.15s ease-in-out 0.2s infinite alternate; }
+.wave-bar-3 { animation: laserWave 0.55s ease-in-out 0.4s infinite alternate; }
+.wave-bar-4 { animation: laserWave 0.95s ease-in-out 0.15s infinite alternate; }
+.wave-bar-5 { animation: laserWave 1.35s ease-in-out 0.3s infinite alternate; }
+.wave-bar-6 { animation: laserWave 0.85s ease-in-out 0.5s infinite alternate; }
+.wave-bar-7 { animation: laserWave 1.05s ease-in-out 0.25s infinite alternate; }
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(26, 37, 62, 0.7) 0%, rgba(14, 21, 38, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-panel-glow {
+  background: linear-gradient(135deg, rgba(32, 45, 75, 0.65) 0%, rgba(11, 15, 25, 0.88) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 107, 139, 0.25);
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glow-btn {
+  box-shadow: 0 0 28px -4px rgba(255, 46, 99, 0.75), 0 0 14px 0 rgba(0, 240, 255, 0.5);
+}
+
+.glow-violet-btn {
+  box-shadow: 0 0 20px -3px rgba(157, 78, 221, 0.6), 0 0 8px 0 rgba(255, 46, 99, 0.3);
+}
+
+.glow-cyan-btn {
+  box-shadow: 0 0 20px -3px rgba(0, 240, 255, 0.6), 0 0 8px 0 rgba(0, 240, 255, 0.3);
+}
+</style>
+</head>
+<body class="bg-[#0b0f19] text-[#f1f5f9] antialiased flex flex-col min-h-screen max-w-[390px] mx-auto overflow-x-hidden relative selection:bg-primary selection:text-white" style="max-width: 390px; width: 100%; min-height: 884px; position: relative;">
+<!-- Ambient Cyber Gradients & Dust Orbs -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden max-w-[390px] mx-auto">
+<div class="absolute -top-16 -left-14 w-80 h-80 rounded-full bg-primary/20 blur-[105px] anim-neon-pulse"></div>
+<div class="absolute top-[35%] -right-16 w-80 h-80 rounded-full bg-cyber-violet/25 blur-[115px]"></div>
+<div class="absolute bottom-24 -left-12 w-72 h-72 rounded-full bg-tertiary/18 blur-[95px]"></div>
+<!-- Subtle futuristic matrix mesh -->
+<div class="absolute inset-0 opacity-[0.04] bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+</div>
+<!-- ================= 2. ÜST BAR (Holografik Header) ================= -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#0b0f19]/90 backdrop-blur-2xl border-b border-white/10 pt-safe max-w-[390px] mx-auto">
+<div class="h-16 px-4 flex items-center justify-between">
+<!-- Holographic Brand & Telemetry -->
+<div class="flex items-center gap-2.5">
+<div class="relative flex items-center">
+<span class="font-sora text-[22px] font-black tracking-wider bg-gradient-to-r from-white via-primary-fixed to-primary bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,46,99,0.7)]">
+          STITCHES
+        </span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary ml-1 shadow-[0_0_10px_#00f0ff] animate-ping"></span>
+</div>
+<!-- Telemetry Live Frequency Capsule -->
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/90 border border-primary/30 shadow-inner">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-80"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-gradient-to-r from-tertiary to-primary"></span>
+</span>
+<span class="font-space text-[10px] font-bold text-slate-200 tracking-tight">58.420 Dalga</span>
+</div>
+</div>
+<!-- Actions: Notifications + Premium Avatar Ring -->
+<div class="flex items-center gap-2.5">
+<button aria-label="Bildirimler" class="relative w-9 h-9 rounded-full bg-surface-container-high/80 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center backdrop-blur-md active:scale-95 transition-transform shadow-md">
+<span class="material-symbols-outlined text-[19px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#ff2e63]"></span>
+</button>
+<!-- Luxury Spinning Gradient Ring Avatar -->
+<div class="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-primary via-tertiary to-secondary shadow-[0_0_16px_rgba(255,46,99,0.45)] cursor-pointer active:scale-95 transition-transform">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[1px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Cyberpunk girl glowing avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmjE0zQOSE44oC8YR3iPRHtBX-tbGdvQovAQHx58QYbFqCTNSjwRTNTQvOh4lkZcLsGmOeYlzNpOb1FyrdbJCdgZ8Ouo8gH5n00jH8aawDeWS6BhqXOMSjgkU1-sIR7nYhut24K3hVZmHpTJSSZmdGibYIAV-9Nerc8jV1m-iRtxUDJ-haXmWXAimevsW--_-OuMnfu0BR3iDJbAOZSgg3vOtoX-zOwFGxsEOLPwYDwGVLRD0wyxkh">
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0b0f19] shadow-[0_0_8px_#10b981]"></span>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN CONTENT CONTAINER ================= -->
+<main class="flex-1 w-full pt-16 pb-24 relative z-10 flex flex-col gap-4">
+<!-- Sub-bar: Vibe Stream Radar Filter -->
+<section class="px-4 pt-3">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-primary to-primary-container text-white text-[12px] font-jakarta font-bold shadow-[0_0_14px_rgba(255,46,99,0.5)] border border-primary-fixed/30 active:scale-95">
+<span class="material-symbols-outlined text-[15px] animate-pulse">radar</span>
+<span>Rezonans Odak</span>
+</button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-slate-300 text-[12px] font-jakarta font-semibold hover:border-tertiary/40 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[15px] text-tertiary">mic</span>
+<span>Yalnızca Ses</span>
+</button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-slate-300 text-[12px] font-jakarta font-semibold hover:border-secondary/40 active:scale-95 transition-all">
+<span>👻</span>
+<span>Hayalet Mod</span>
+</button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-panel text-slate-300 text-[12px] font-jakarta font-semibold hover:border-cyber-violet/40 active:scale-95 transition-all">
+<span>🔮</span>
+<span>Aura Çifti</span>
+</button>
+</div>
+</section>
+<!-- ================= 3. HERO: Manyetik Kozmik Frekans Radarı ================= -->
+<section class="px-4">
+<div class="relative rounded-3xl p-[1.5px] anim-border-flow shadow-[0_16px_50px_-10px_rgba(255,46,99,0.55),0_0_24px_rgba(0,240,255,0.3)] overflow-hidden">
+<!-- Dark Frosted Cyber Inner -->
+<div class="relative rounded-[22px] bg-[#0c1222]/95 backdrop-blur-2xl overflow-hidden p-4 flex flex-col justify-between min-h-[300px]">
+<!-- Glowing Holographic Background Mesh with In-Design Aesthetic Image -->
+<div class="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none">
+<img alt="Cosmic holographic energy backdrop" class="w-full h-full object-cover filter brightness-75 contrast-125 scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZDb5atzGG1cSb4HyTDomsAMXnndR6xUX_CMVvRkcLMkUoIEhuxo249qhoUweavM_1ZAhxUwwLyv7rCJlm2_osSMt3wU0FYu9dCPVt9lX3ySEwqUCkvkDE9hQoYWnjx37U2NoMZcbvvGt2L8_dPh2KalkuNI_8EoTJkBo3MRie_W5Pdjv5WfFTMSLzqRHi_1RVMc2Mab69dBMXrj1Lt5tMS4L6oYjlORox9Pt82EgdtneZ0rCNGaA2">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0c1222] via-[#0c1222]/65 to-transparent"></div>
+<!-- Dynamic radar grid sweep overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.35)_0,transparent_70%)]"></div>
+<!-- Top Badges Row -->
+<div class="relative z-10 flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/50 border border-primary/50 backdrop-blur-md shadow-[0_0_12px_rgba(255,46,99,0.3)]">
+<span class="material-symbols-outlined text-[15px] text-tertiary animate-spin" style="animation-duration: 4s;">cyclone</span>
+<span class="font-space text-[10px] uppercase font-extrabold tracking-wider text-tertiary">MANYETİK PORTAL</span>
+</div>
+<!-- Live Match Score Badge -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-primary/30 to-secondary/30 border border-primary/40 backdrop-blur-md shadow-[0_0_12px_rgba(255,154,60,0.3)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
+</span>
+<span class="font-space text-[11px] font-bold text-white tracking-wide">%98 Senkron</span>
+</div>
+</div>
+<!-- Central Holographic Frequency Radar Display -->
+<div class="relative z-10 my-2 flex flex-col items-center justify-center text-center">
+<!-- Animated Pulsing Concentric Rings & Equalizer Soundwaves -->
+<div class="relative w-full max-w-[280px] h-28 flex items-center justify-center">
+<!-- Pulsing Radar Halo Rings -->
+<div class="absolute inset-0 rounded-full border border-tertiary/25 anim-neon-pulse"></div>
+<div class="absolute inset-4 rounded-full border border-primary/35 scale-95 animate-ping opacity-20"></div>
+<div class="absolute inset-8 rounded-full border border-cyber-violet/30"></div>
+<!-- Silhouettes / Resonance Node Icons -->
+<div class="flex items-center justify-between w-full px-3 relative z-10">
+<!-- Entity Alpha (Ruh #409) -->
+<div class="flex flex-col items-center group">
+<div class="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-primary via-primary-container to-cyber-violet p-[2px] shadow-[0_0_20px_rgba(255,46,99,0.8)] anim-float">
+<div class="w-full h-full rounded-[14px] bg-[#0c1222] flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-[22px] text-primary-fixed drop-shadow-[0_0_8px_#ff2e63]">fingerprint</span>
+<div class="absolute inset-0 bg-primary/10 rounded-[14px] animate-pulse"></div>
+</div>
+<!-- Pulsing micro dot -->
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-primary border border-white shadow-[0_0_8px_#ff2e63] animate-ping"></span>
+</div>
+<span class="font-space text-[10px] font-bold text-slate-200 mt-1.5 flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Ruh #409
+</span>
+</div>
+<!-- Interactive Dynamic Equalizer Soundwaves Between Souls -->
+<div class="flex items-center gap-1 px-2 py-1.5 rounded-2xl bg-black/45 border border-white/10 backdrop-blur-md shadow-inner">
+<span class="w-1 bg-gradient-to-t from-primary to-tertiary rounded-full wave-bar-1 shadow-[0_0_6px_#ff2e63]"></span>
+<span class="w-1 bg-gradient-to-t from-primary to-secondary rounded-full wave-bar-2"></span>
+<span class="w-1.5 bg-gradient-to-t from-tertiary via-white to-primary rounded-full wave-bar-3 shadow-[0_0_12px_#00f0ff]"></span>
+<span class="w-1 bg-gradient-to-t from-primary to-cyber-violet rounded-full wave-bar-4 shadow-[0_0_6px_#9d4edd]"></span>
+<span class="w-1.5 bg-gradient-to-t from-secondary via-white to-tertiary rounded-full wave-bar-5 shadow-[0_0_10px_#ff9a3c]"></span>
+<span class="w-1 bg-gradient-to-t from-tertiary to-primary rounded-full wave-bar-6"></span>
+<span class="w-1 bg-gradient-to-t from-cyber-violet to-tertiary rounded-full wave-bar-7"></span>
+</div>
+<!-- Entity Beta (Ruh #882) -->
+<div class="flex flex-col items-center group">
+<div class="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-tertiary via-tertiary-container to-secondary p-[2px] shadow-[0_0_20px_rgba(0,240,255,0.7)] anim-float" style="animation-delay: 1.8s;">
+<div class="w-full h-full rounded-[14px] bg-[#0c1222] flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-[22px] text-tertiary drop-shadow-[0_0_8px_#00f0ff]">graphic_eq</span>
+<div class="absolute inset-0 bg-tertiary/10 rounded-[14px] animate-pulse"></div>
+</div>
+<!-- Pulsing micro dot -->
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-tertiary border border-white shadow-[0_0_8px_#00f0ff] animate-ping" style="animation-delay: 0.6s;"></span>
+</div>
+<span class="font-space text-[10px] font-bold text-slate-200 mt-1.5 flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Ruh #882
+</span>
+</div>
+</div>
+</div>
+<!-- Hero Headline & Core Philosophy -->
+<h2 class="font-sora text-[20px] font-extrabold text-white tracking-tight mt-1 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+            Kör Ses Eşleşmesi
+          </h2>
+<p class="font-jakarta text-[11px] text-slate-300 font-medium max-w-[280px] mt-0.5 leading-snug">
+            Yüz Yok • Saf Enerji • Sadece anlık rezonansınla frekansı yakala
+          </p>
+</div>
+<!-- Action Button: Prismatic Luminous Connect CTA -->
+<div class="relative z-10 pt-2.5 border-t border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[17px] animate-pulse">podcasts</span>
+<span class="font-space text-[10px] text-slate-300 tracking-wider font-semibold">3.120 Yayında</span>
+</div>
+<!-- Main Glow Button with Shimmer & Scale -->
+<button class="glow-btn anim-shimmer relative group overflow-hidden px-5 py-2.5 rounded-full bg-gradient-to-r from-primary via-primary-container to-secondary text-white font-jakarta text-[13px] font-extrabold flex items-center gap-2 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px] animate-pulse">mic</span>
+<span>Frekansa Bağlan</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">bolt</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 4. HIZLI EŞLEŞME BENTO KAPSÜLLERİ (Geliştirilmiş & Hareketli) ================= -->
+<section class="px-4">
+<div class="grid grid-cols-2 gap-3">
+<!-- Kapsül 1: 3 Dk Kör Fısıltı -->
+<div class="relative rounded-2xl glass-panel-glow p-3.5 flex flex-col justify-between min-h-[190px] border border-cyber-violet/40 overflow-hidden hover:border-cyber-violet transition-all group shadow-[0_8px_24px_rgba(157,78,221,0.25)]">
+<!-- Ambient Neon Backlight -->
+<div class="absolute -right-8 -bottom-8 w-24 h-24 bg-cyber-violet/30 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<!-- Glowing Icon Ring -->
+<div class="relative w-9 h-9 rounded-xl bg-cyber-violet/20 border border-cyber-violet/50 flex items-center justify-center text-cyber-violet shadow-[0_0_14px_rgba(157,78,221,0.5)]">
+<span class="material-symbols-outlined text-[19px]">lock</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-primary animate-ping"></span>
+</div>
+<span class="font-space text-[9px] uppercase font-black text-secondary px-2 py-0.5 rounded-full bg-secondary/15 border border-secondary/40 shadow-sm">
+              3 DK LİMİT
+            </span>
+</div>
+<h3 class="font-sora text-[14px] font-extrabold text-white leading-tight flex items-center gap-1">
+<span>Kör Fısıltı</span>
+<span class="material-symbols-outlined text-[14px] text-cyber-violet">lock_clock</span>
+</h3>
+<p class="font-jakarta text-[10px] text-slate-300 mt-1 leading-snug">
+            Anonim sesli &amp; şifreli sohbet. Kimliğini sadece frekans belirler.
+          </p>
+</div>
+<!-- Animated mini soundwave indicator -->
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
+<div class="flex items-center gap-0.5 h-3">
+<span class="w-1 bg-cyber-violet rounded-full wave-bar-1"></span>
+<span class="w-1 bg-primary rounded-full wave-bar-3"></span>
+<span class="w-1 bg-cyber-violet rounded-full wave-bar-2"></span>
+<span class="w-1 bg-tertiary rounded-full wave-bar-4"></span>
+</div>
+<span class="font-space text-[9px] text-cyber-violet font-bold">Kripto Aktif</span>
+</div>
+<button class="w-full mt-2 py-1.5 px-2 rounded-xl glow-violet-btn bg-gradient-to-r from-cyber-violet/40 to-primary/40 hover:from-cyber-violet/60 hover:to-primary/60 text-white font-jakarta text-[11px] font-bold border border-cyber-violet/50 flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[14px] text-white">graphic_eq</span>
+<span>Fısıltı Başlat</span>
+</button>
+</div>
+<!-- Kapsül 2: Hayalet Portalı -->
+<div class="relative rounded-2xl glass-panel-glow p-3.5 flex flex-col justify-between min-h-[190px] border border-tertiary/40 overflow-hidden hover:border-tertiary transition-all group shadow-[0_8px_24px_rgba(0,240,255,0.22)]">
+<!-- Ambient Neon Backlight -->
+<div class="absolute -right-8 -bottom-8 w-24 h-24 bg-tertiary/25 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<!-- Glowing Icon Ring -->
+<div class="relative w-9 h-9 rounded-xl bg-tertiary/20 border border-tertiary/50 flex items-center justify-center text-tertiary shadow-[0_0_14px_rgba(0,240,255,0.5)]">
+<span class="material-symbols-outlined text-[19px]">timer</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+</div>
+<span class="font-space text-[9px] uppercase font-black text-tertiary px-2 py-0.5 rounded-full bg-tertiary/15 border border-tertiary/40 shadow-sm">
+              0 İZ • SİLİNİR
+            </span>
+</div>
+<h3 class="font-sora text-[14px] font-extrabold text-white leading-tight flex items-center gap-1">
+<span>Hayalet Portalı</span>
+<span class="text-[13px] animate-bounce">👻</span>
+</h3>
+<p class="font-jakarta text-[10px] text-slate-300 mt-1 leading-snug">
+            5 dakika sonunda tüm mesaj ve ses dalgaları sonsuza dek buharlaşır.
+          </p>
+</div>
+<!-- Animated vapor countdown indicator -->
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-tertiary animate-pulse">auto_delete</span>
+<span class="font-space text-[9px] text-slate-300">Buharlaşma</span>
+</div>
+<span class="font-space text-[9px] text-tertiary font-bold">04:59</span>
+</div>
+<button class="w-full mt-2 py-1.5 px-2 rounded-xl glow-cyan-btn bg-gradient-to-r from-tertiary/30 to-tertiary-container/40 hover:from-tertiary/50 hover:to-tertiary-container/60 text-white font-jakarta text-[11px] font-bold border border-tertiary/50 flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[14px] text-tertiary">visibility_off</span>
+<span>Hayalete Gir</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ================= 5. İNTERAKTİF BUZ KIRICILAR & SES OYUNLARI ================= -->
+<section class="px-4">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px] animate-pulse">casino</span>
+<h3 class="font-sora text-[14px] font-bold text-white tracking-wide">Kozmik Buz Kırıcılar</h3>
+</div>
+<span class="font-space text-[10px] text-secondary font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+        Canlı Düello
+      </span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Game 1: Frekans Ruleti -->
+<div class="relative rounded-2xl glass-panel p-3 border border-secondary/35 flex flex-col justify-between cursor-pointer active:scale-98 transition-all group overflow-hidden shadow-[0_4px_20px_rgba(255,154,60,0.15)]">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-secondary/20 border border-secondary/40 flex items-center justify-center text-secondary shadow-[0_0_8px_rgba(255,154,60,0.4)]">
+<span class="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform duration-700">rotate_right</span>
+</div>
+<span class="font-space text-[9px] text-slate-200 font-bold bg-secondary/20 px-1.5 py-0.5 rounded border border-secondary/30">Hediye &amp; Ses</span>
+</div>
+<div class="mt-2">
+<span class="font-sora text-[12px] font-bold text-white block">Frekans Ruleti</span>
+<span class="font-jakarta text-[10px] text-slate-400 block mt-0.5">Mistik ses tonu ve jeton kazan</span>
+</div>
+<div class="mt-2 pt-1.5 border-t border-white/10 flex items-center justify-between text-secondary font-jakarta text-[10px] font-bold">
+<span>Çarkı Çevir</span>
+<span class="material-symbols-outlined text-[14px] group-hover:scale-125 transition-transform">play_circle</span>
+</div>
+</div>
+<!-- Game 2: D mi C mi? Canlı Düello -->
+<div class="relative rounded-2xl glass-panel p-3 border border-tertiary/35 flex flex-col justify-between cursor-pointer active:scale-98 transition-all group overflow-hidden shadow-[0_4px_20px_rgba(0,240,255,0.15)]">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-tertiary/20 border border-tertiary/40 flex items-center justify-center text-tertiary shadow-[0_0_8px_rgba(0,240,255,0.4)]">
+<span class="material-symbols-outlined text-[16px] group-hover:scale-125 transition-transform">psychology_alt</span>
+</div>
+<span class="font-space text-[9px] text-slate-200 font-bold bg-tertiary/20 px-1.5 py-0.5 rounded border border-tertiary/30">Sesli Düello</span>
+</div>
+<div class="mt-2">
+<span class="font-sora text-[12px] font-bold text-white block">D mi C mi?</span>
+<span class="font-jakarta text-[10px] text-slate-400 block mt-0.5">Canlı sesli ikilem soruları</span>
+</div>
+<div class="mt-2 pt-1.5 border-t border-white/10 flex items-center justify-between text-tertiary font-jakarta text-[10px] font-bold">
+<span>Meydan Oku</span>
+<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 6. CANLI SES ALANLARI & SAHNE (Sesli Parti Odaları) ================= -->
+<section class="px-4 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h3 class="font-sora text-[15px] font-extrabold text-white">Canlı Ses Odaları</h3>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary/20 to-cyber-violet/20 border border-primary/40 text-primary-fixed font-jakarta text-[11px] font-bold active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Oda Aç</span>
+</button>
+</div>
+<!-- Room Card 1: Gece Kuşları & Lo-Fi Lounge -->
+<div class="relative rounded-2xl glass-panel-glow p-3.5 border border-primary/30 flex flex-col gap-2.5 hover:border-primary/50 transition-all overflow-hidden shadow-[0_8px_24px_rgba(255,46,99,0.2)]">
+<!-- Neon Ambient Backlight -->
+<div class="absolute -right-10 -top-10 w-28 h-28 bg-primary/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-3">
+<!-- Speaker Avatar with Pulsing Ring -->
+<div class="relative w-11 h-11 shrink-0">
+<div class="absolute inset-0 rounded-full bg-primary/40 animate-ping opacity-35"></div>
+<img class="w-11 h-11 rounded-full object-cover border-2 border-primary shadow-[0_0_12px_rgba(255,46,99,0.55)]" data-alt="Lo-fi host avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmjE0zQOSE44oC8YR3iPRHtBX-tbGdvQovAQHx58QYbFqCTNSjwRTNTQvOh4lkZcLsGmOeYlzNpOb1FyrdbJCdgZ8Ouo8gH5n00jH8aawDeWS6BhqXOMSjgkU1-sIR7nYhut24K3hVZmHpTJSSZmdGibYIAV-9Nerc8jV1m-iRtxUDJ-haXmWXAimevsW--_-OuMnfu0BR3iDJbAOZSgg3vOtoX-zOwFGxsEOLPwYDwGVLRD0wyxkh">
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary border-2 border-[#0b0f19] shadow-[0_0_6px_#00f0ff]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-sora text-[13px] font-bold text-white">🌙 Gece Kuşları &amp; Lo-Fi</span>
+<span class="font-space text-[9px] bg-primary/25 text-primary-fixed border border-primary/40 px-1.5 py-0.2 rounded font-bold">CANLI</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5 text-[11px] font-jakarta text-slate-300">
+<span class="flex items-center gap-0.5 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[13px]">headphones</span> 340 Dinliyor
+              </span>
+<span>•</span>
+<span class="flex items-center gap-0.5 text-secondary font-semibold">
+<span class="material-symbols-outlined text-[13px]">mic</span> 6 Konuşuyor
+              </span>
+</div>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-primary to-primary-container text-white font-jakarta text-[11px] font-extrabold shadow-[0_0_12px_rgba(255,46,99,0.5)] active:scale-95 transition-transform">
+          Işınlan
+        </button>
+</div>
+<!-- Speakers Active Waveform Strip -->
+<div class="pt-2 border-t border-white/10 flex items-center justify-between relative z-10">
+<div class="flex items-center -space-x-2">
+<div class="w-6 h-6 rounded-full overflow-hidden border border-primary/50 shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Chibi avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZDb5atzGG1cSb4HyTDomsAMXnndR6xUX_CMVvRkcLMkUoIEhuxo249qhoUweavM_1ZAhxUwwLyv7rCJlm2_osSMt3wU0FYu9dCPVt9lX3ySEwqUCkvkDE9hQoYWnjx37U2NoMZcbvvGt2L8_dPh2KalkuNI_8EoTJkBo3MRie_W5Pdjv5WfFTMSLzqRHi_1RVMc2Mab69dBMXrj1Lt5tMS4L6oYjlORox9Pt82EgdtneZ0rCNGaA2">
+</div>
+<div class="w-6 h-6 rounded-full overflow-hidden border border-tertiary/50 shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Cyber avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1SBL8n_Uf2QXedUXmDb457u68tGA6S_HAaBf3KQp3oQBd2yvjnw-7LswkF273sLw9BqwJafBOZG2DhRkYSqpJ6htNngBXuyyuOVe_G7TkE5IOAE4LQB4TtNcJxbIcOA1cxXaZxN0piCtugF1nBLgG9X4QFvlZB0Jb7RDKkvYnY17V58MHYwSSuPxMFWUfWNekR64QW2HogTwLe7V0hBNTEF-tc6A_2gQgjzXcNT3Ne-opsUMIbie4">
+</div>
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-[9px] font-bold text-slate-300 flex items-center justify-center border border-white/20">
+            +8
+          </span>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-black/50 border border-tertiary/30 shadow-inner">
+<span class="w-1 bg-tertiary rounded-full wave-bar-1 h-3 shadow-[0_0_4px_#00f0ff]"></span>
+<span class="w-1 bg-primary rounded-full wave-bar-3 h-4 shadow-[0_0_4px_#ff2e63]"></span>
+<span class="w-1 bg-secondary rounded-full wave-bar-2 h-3 shadow-[0_0_4px_#ff9a3c]"></span>
+<span class="font-space text-[9px] text-tertiary font-bold ml-1">Yayında</span>
+</div>
+</div>
+</div>
+<!-- Room Card 2: Anonim İtiraflar & Ses Filtresi FX -->
+<div class="relative rounded-2xl glass-panel-glow p-3.5 border border-cyber-violet/30 flex flex-col gap-2 hover:border-cyber-violet/50 transition-all overflow-hidden shadow-[0_8px_24px_rgba(157,78,221,0.2)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-2xl bg-cyber-violet/20 border border-cyber-violet/50 flex items-center justify-center text-cyber-violet shadow-[0_0_14px_rgba(157,78,221,0.35)]">
+<span class="material-symbols-outlined text-[22px]">theater_comedy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-sora text-[13px] font-bold text-white">🎭 Anonim İtiraflar • FX</span>
+<div class="flex items-center gap-1.5 mt-0.5 text-[11px] font-jakarta text-slate-300">
+<span class="text-tertiary font-semibold">195 Dinleyici</span>
+<span>•</span>
+<span class="text-secondary font-medium">Siber Fısıltı FX Aktif</span>
+</div>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full glass-panel hover:bg-cyber-violet/30 text-white font-jakarta text-[11px] font-bold active:scale-95 transition-all">
+          Dinle
+        </button>
+</div>
+<div class="pt-1.5 border-t border-white/10 flex items-center justify-between">
+<span class="font-jakarta text-[10px] text-slate-400 italic truncate max-w-[210px]">
+          "Bunu kimse bilmiyor ama..."
+        </span>
+<span class="font-space text-[9px] font-bold text-secondary bg-secondary/15 px-2 py-0.5 rounded-full border border-secondary/30">
+          🎤 14 Sırada
+        </span>
+</div>
+</div>
+</section>
+<!-- ================= VIP SİBER AURA GEÇİŞİ (Luxury Cyber Teaser) ================= -->
+<section class="px-4 pb-2">
+<div class="relative rounded-2xl p-[1px] bg-gradient-to-r from-secondary via-primary to-cyber-violet overflow-hidden shadow-[0_8px_32px_-6px_rgba(252,157,65,0.4)]">
+<div class="rounded-[15px] bg-[#0c1322] p-3.5 flex items-center justify-between relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-24 h-24 bg-secondary/20 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center gap-2.5 relative z-10">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-amber-400 flex items-center justify-center text-black font-bold shadow-[0_0_16px_rgba(252,157,65,0.7)]">
+<span class="material-symbols-outlined text-[20px]">diamond</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-sora text-[12px] font-extrabold text-white tracking-wider">AURA PASS VIP</span>
+<span class="font-space text-[8px] bg-amber-400 text-black font-black px-1 rounded shadow-sm">PRO</span>
+</div>
+<p class="font-jakarta text-[10px] text-slate-300">Sınırsız kör arama &amp; siber aura kanatları</p>
+</div>
+</div>
+<button class="anim-shimmer px-3.5 py-1.5 rounded-full bg-gradient-to-r from-secondary to-primary text-white font-jakarta text-[11px] font-black shadow-[0_0_12px_rgba(255,154,60,0.5)] active:scale-95 shrink-0 relative z-10">
+          Yükselt ✨
+        </button>
+</div>
+</div>
+</section>
+</main>
+<!-- ================= 7. ALT NAVİGASYON (6 Parçalı Cyber Navbar) ================= -->
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-[#0b0f19]/90 backdrop-blur-2xl border-t border-white/10 max-w-[390px] mx-auto">
+<div class="flex justify-around items-center h-16 px-2">
+<!-- 1. Akış (Aktif) -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-primary group" data-path="akis" href="#">
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px] drop-shadow-[0_0_12px_rgba(255,46,99,0.85)]">local_fire_department</span>
+<span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_#ff2e63]"></span>
+</div>
+<span class="font-jakarta text-[10px] font-extrabold tracking-wide">Akış</span>
+</a>
+<!-- 2. Story -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-slate-400 hover:text-white transition-colors" data-path="story" href="#">
+<span class="material-symbols-outlined text-[22px]">amp_stories</span>
+<span class="font-jakarta text-[10px] font-medium">Story</span>
+</a>
+<!-- 3. Fısıltı -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-slate-400 hover:text-white transition-colors relative" data-path="fisilti" href="#">
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">chat_bubble</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#00f0ff] animate-pulse"></span>
+</div>
+<span class="font-jakarta text-[10px] font-medium">Fısıltı</span>
+</a>
+<!-- 4. Radar -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-slate-400 hover:text-white transition-colors" data-path="radar" href="#">
+<span class="material-symbols-outlined text-[22px]">radar</span>
+<span class="font-jakarta text-[10px] font-medium">Radar</span>
+</a>
+<!-- 5. Lüks -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-slate-400 hover:text-white transition-colors" data-path="luks" href="#">
+<span class="material-symbols-outlined text-[22px]">diamond</span>
+<span class="font-jakarta text-[10px] font-medium">Lüks</span>
+</a>
+<!-- 6. Profil -->
+<a class="flex flex-col items-center justify-center min-w-[50px] gap-0.5 text-slate-400 hover:text-white transition-colors" data-path="profil" href="#">
+<span class="material-symbols-outlined text-[22px]">account_circle</span>
+<span class="font-jakarta text-[10px] font-medium">Profil</span>
+</a>
+</div>
+</nav>
+</body></html>
