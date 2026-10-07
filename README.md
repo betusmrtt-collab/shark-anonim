@@ -1,17 +1,32 @@
-# anonim
+# Anonim - Flutter App
 
-A new Flutter project.
+Modern, güvenli ve performanslı Flutter uygulaması.
 
-## Getting Started
+## Kurulum
 
-This project is a starting point for a Flutter application.
+1. Flutter SDK'yı yükleyin
+2. `.env.example` dosyasını `.env` olarak kopyalayın ve gerekli değerleri girin
+3. Bağımlılıkları yükleyin:
+```bash
+flutter pub get
+```
 
-A few resources to get you started if this is your first Flutter project:
+4. Uygulamayı çalıştırın:
+```bash
+flutter run
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Özellikler
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Modern Material 3 tasarım
+- Güvenli kimlik doğrulama
+- Profil yönetimi
+- Güncelleme sistemi
+
+## Geliştirme
+
+Flutter 3.x gereklidir.
+
+## Lisans
+
+Tüm hakları saklıdır.

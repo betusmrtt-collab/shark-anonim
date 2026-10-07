@@ -1,66 +1,128 @@
-# Miscellaneous
-*.class
+# ===================================
+# GÜVENLİK: Kritik Bilgiler
+# ===================================
+
+# Supabase Credentials
+.env
+.env.*
+!.env.example
+
+# SQL Scripts (veritabanı yapısı içerebilir)
+*.sql
+
+# Log dosyaları (hassas bilgi içerebilir)
 *.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
+log.txt
+logs/
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+# Dökümanlar (hassas bilgi içerebilir)
+*.md
+!README.md
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Talimatlar klasörü
+talimatlar/
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# API Keys & Secrets
+secrets/
+credentials/
+*.key
+*.pem
+*.p12
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
+
+# ===================================
+# Build & Dependencies
+# ===================================
+
+# Flutter/Dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
-/build/
+build/
+*.dart.js
+*.dart.js.map
+*.info.json
+*.part
 
-# Symbolication related
-app.*.symbols
+# Android
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/local.properties
+android/key.properties
+android/.idea/
+android/.gradle
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/gradle-wrapper.jar
 
-# Obfuscation related
-app.*.map.json
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# macOS
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.swift
 
-# Environment files
-.env
-*.env
-.env.local
-.env.*.local
+# Linux
+linux/flutter/ephemeral/
 
-# User-specific files
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
+# Windows
+windows/flutter/ephemeral/
 
-# Supabase credentials (ÖNEMLİ!)
-lib/config/supabase_config.dart
+# Web
+web/flutter_bootstrap.js
 
-# Test/Debug files
-hata.jpg
-*.jpg
-*.png
-*.jpeg
-test_*
+# ===================================
+# IDE & Editor
+# ===================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.atom/
+.project
+.classpath
+.settings/
+*.iml
+*.ipr
+*.iws
+
+# ===================================
+# Temporary & Cache
+# ===================================
+*.tmp
+*.temp
+*.cache
+.cache/
+coverage/
+
+# ===================================
+# Other
+# ===================================
+.flutter-devtools
+.metadata
