@@ -226,14 +226,30 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
       return;
     }
 
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
+    // Çoklu resim seçimi
+    final List<XFile> images = await _picker.pickMultiImage(
       maxWidth: 1024,
       maxHeight: 1024,
       imageQuality: 85,
     );
 
-    if (image != null) {
+    if (images.isEmpty) return;
+
+    // Maksimum limit kontrolü
+    final remainingSlots = _maxGalleryImages - _galleryImages.length;
+    final imagesToProcess = images.take(remainingSlots).toList();
+
+    if (images.length > remainingSlots) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Sadece $remainingSlots fotoğraf eklenebilir (toplam limit: $_maxGalleryImages)'),
+          backgroundColor: const Color(0xFFFF6B6B),
+        ),
+      );
+    }
+
+    // Her resmi sırayla işle
+    for (final image in imagesToProcess) {
       // ✅ GÜVENLIK: Dosya validasyonu
       final file = File(image.path);
       final validation = await FileSecurityService.validateImage(
@@ -245,13 +261,13 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(validation.error!),
+              content: Text('${image.name}: ${validation.error}'),
               backgroundColor: const Color(0xFFFF4444),
             ),
           );
         }
-        AppLogger.storage.warning('Galeri validasyonu başarısız: ${validation.error}');
-        return;
+        AppLogger.storage.warning('Galeri validasyonu başarısız (${image.name}): ${validation.error}');
+        continue; // Bu resmi atla, diğerlerine devam et
       }
 
       // ✅ GÜVENLIK: Resmi optimize et
@@ -263,14 +279,24 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
         setState(() {
           _galleryImages.add(optimizedFile.path);
         });
-        AppLogger.storage.success('Galeri resmi optimize edildi');
+        AppLogger.storage.success('Galeri resmi optimize edildi: ${image.name}');
       } catch (e) {
-        AppLogger.storage.error('Galeri optimizasyonu başarısız', e);
+        AppLogger.storage.error('Galeri optimizasyonu başarısız (${image.name})', e);
         // Fallback: orijinal dosyayı kullan
         setState(() {
           _galleryImages.add(image.path);
         });
       }
+    }
+
+    // Başarı mesajı
+    if (mounted && imagesToProcess.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${imagesToProcess.length} fotoğraf eklendi'),
+          backgroundColor: const Color(0xFF00687A),
+        ),
+      );
     }
   }
 
