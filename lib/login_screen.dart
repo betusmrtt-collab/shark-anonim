@@ -3,6 +3,7 @@ import 'services/auth_service.dart';
 import 'services/input_security_service.dart';
 import 'services/update_service.dart';
 import 'widgets/update_dialog.dart';
+import 'widgets/mandatory_update_dialog.dart';
 import 'home_screen.dart';
 import 'forgot_password_screen.dart';
 
@@ -51,30 +52,36 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
     _fadeController.forward();
 
-    // Frame render olduktan sonra güncelleme kontrolü yap
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkForUpdates();
-    });
+    // ⭐ ZORUNLU GÜNCELLEME KONTROLÜ - arka planda, performansı etkilemeden
+    _checkForMandatoryUpdate();
   }
 
-  Future<void> _checkForUpdates() async {
+  /// Zorunlu güncelleme kontrolü - sessizce arka planda
+  Future<void> _checkForMandatoryUpdate() async {
+    // 2 saniye bekle - ekran yüklensin, kullanıcı rahat etsin
+    await Future.delayed(const Duration(seconds: 2));
+    
+    if (!mounted) return;
+    
     try {
-      print('🔄 [LOGIN] Güncelleme kontrolü başlatılıyor...');
       final updateInfo = await _updateService.checkForUpdate();
-
-      if (updateInfo != null && mounted) {
-        print('✅ [LOGIN] Güncelleme bulundu, dialog gösteriliyor...');
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => UpdateDialog(updateInfo: updateInfo),
-        );
-      } else {
-        print('ℹ️ [LOGIN] Güncelleme bulunamadı');
+      
+      if (updateInfo != null && updateInfo['isMandatory'] == true && mounted) {
+        // Zorunlu güncelleme var - hemen göster
+        _showMandatoryUpdateDialog(updateInfo);
       }
     } catch (e) {
-      print('❌ [LOGIN] Güncelleme kontrolü hatası: $e');
+      debugPrint('[LOGIN] Güncelleme kontrolü hatası: $e');
+      // Hata durumunda sessizce devam et
     }
+  }
+
+  void _showMandatoryUpdateDialog(Map<String, dynamic> updateInfo) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // ❌ Kullanıcı kapatamaz
+      builder: (context) => MandatoryUpdateDialog(updateInfo: updateInfo),
+    );
   }
   
   Future<void> _handleLogin() async {

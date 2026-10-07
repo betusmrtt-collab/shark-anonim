@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../services/update_service.dart';
 import '../widgets/update_dialog.dart';
+import '../widgets/mandatory_update_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,39 +14,102 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final AuthService _authService = AuthService();
   final UpdateService _updateService = UpdateService();
+  bool _isCheckingUpdate = false;
 
   @override
   void initState() {
     super.initState();
-    // Frame render olduktan sonra güncelleme kontrolü yap
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkForUpdates();
-    });
+    // ⭐ ZORUNLU GÜNCELLEME KONTROLÜ - arka planda
+    _checkForMandatoryUpdate();
   }
 
-  Future<void> _checkForUpdates() async {
+  /// Zorunlu güncelleme kontrolü - sessizce arka planda
+  Future<void> _checkForMandatoryUpdate() async {
+    // 1 saniye bekle - ekran açılsın, kullanıcı rahat etsin
+    await Future.delayed(const Duration(seconds: 1));
+    
+    if (!mounted) return;
+    
     try {
-      print('🔄 Güncelleme kontrolü başlatılıyor...');
       final updateInfo = await _updateService.checkForUpdate();
-
+      
       if (updateInfo != null && mounted) {
-        print('✅ Güncelleme bulundu, dialog gösteriliyor...');
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => UpdateDialog(updateInfo: updateInfo),
-        );
-      } else {
-        print('ℹ️ Güncelleme bulunamadı');
+        if (updateInfo['isMandatory'] == true) {
+          // Zorunlu güncelleme - hemen göster
+          _showMandatoryUpdateDialog(updateInfo);
+        } else {
+          // Opsiyonel güncelleme - snackbar ile bildir
+          _showUpdateAvailableSnackbar();
+        }
       }
     } catch (e) {
-      print('❌ Güncelleme kontrolü hatası: $e');
+      debugPrint('[HOME] Güncelleme kontrolü hatası: $e');
+    }
+  }
+
+  void _showMandatoryUpdateDialog(Map<String, dynamic> updateInfo) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // ❌ Kullanıcı kapatamaz
+      builder: (context) => MandatoryUpdateDialog(updateInfo: updateInfo),
+    );
+  }
+
+  /// Manuel güncelleme kontrolü - kullanıcı butona bastığında
+  Future<void> _checkForUpdates() async {
+    if (_isCheckingUpdate) return;
+    
+    setState(() => _isCheckingUpdate = true);
+    
+    try {
+      final updateInfo = await _updateService.checkForUpdate(forceCheck: true);
+
+      if (!mounted) return;
+
+      if (updateInfo != null) {
+        if (updateInfo['isMandatory'] == true) {
+          _showMandatoryUpdateDialog(updateInfo);
+        } else {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => UpdateDialog(updateInfo: updateInfo),
+          );
+        }
+      } else {
+        _showMessage('Uygulamanız güncel');
+      }
+    } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Güncelleme kontrolü başarısız: $e')),
-        );
+        _showMessage('Güncelleme kontrolü başarısız', isError: true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isCheckingUpdate = false);
       }
     }
+  }
+
+  void _showUpdateAvailableSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('🎉 Yeni güncelleme mevcut!'),
+        action: SnackBarAction(
+          label: 'GÖRÜNTÜLE',
+          onPressed: _checkForUpdates,
+        ),
+        duration: const Duration(seconds: 5),
+      ),
+    );
+  }
+
+  void _showMessage(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red : Colors.green,
+      ),
+    );
   }
 
   @override
@@ -66,13 +130,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.system_update, color: Color(0xFF00687A)),
-            onPressed: () async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Güncelleme kontrol ediliyor...')),
-              );
-              await _checkForUpdates();
-            },
+            icon: _isCheckingUpdate 
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.system_update, color: Color(0xFF00687A)),
+            onPressed: _isCheckingUpdate ? null : _checkForUpdates,
           ),
           IconButton(
             icon: const Icon(Icons.logout, color: Color(0xFF00687A)),
