@@ -125,76 +125,81 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
                 ),
               ),
 
-              // 📝 Content
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Release Notes
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFF00D9FF).withOpacity(0.2),
-                        ),
-                      ),
-                      child: Text(
-                        _formatReleaseNotes(widget.updateInfo['releaseNotes'] ?? 'Yeni özellikler ve iyileştirmeler'),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.9),
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-
-                    // Progress Indicator
-                    if (_downloading) ...[
-                      const SizedBox(height: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'İndiriliyor...',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white.withOpacity(0.7),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '${(_progress * 100).toStringAsFixed(0)}%',
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Color(0xFF00D9FF),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+              // 📝 Content - Scrollable
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Release Notes
+                      Container(
+                        width: double.infinity,
+                        constraints: const BoxConstraints(maxHeight: 200),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFF00D9FF).withOpacity(0.2),
                           ),
-                          const SizedBox(height: 8),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: LinearProgressIndicator(
-                              value: _progress,
-                              minHeight: 8,
-                              backgroundColor: Colors.white.withOpacity(0.1),
-                              valueColor: const AlwaysStoppedAnimation<Color>(
-                                Color(0xFF00D9FF),
-                              ),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            _formatReleaseNotes(widget.updateInfo['releaseNotes'] ?? 'Yeni özellikler ve iyileştirmeler'),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withOpacity(0.9),
+                              height: 1.5,
                             ),
                           ),
-                        ],
+                        ),
                       ),
+
+                      // Progress Indicator
+                      if (_downloading) ...[
+                        const SizedBox(height: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'İndiriliyor...',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white.withOpacity(0.7),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '${(_progress * 100).toStringAsFixed(0)}%',
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Color(0xFF00D9FF),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: LinearProgressIndicator(
+                                value: _progress,
+                                minHeight: 8,
+                                backgroundColor: Colors.white.withOpacity(0.1),
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF00D9FF),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
 
@@ -281,13 +286,19 @@ class _UpdateDialogState extends State<UpdateDialog> with SingleTickerProviderSt
   }
 
   String _formatReleaseNotes(String notes) {
-    // Markdown formatını temizle ve düzenle
-    return notes
+    // Kısa özet çıkar (ilk 3 satır)
+    final lines = notes
         .replaceAll('##', '•')
         .replaceAll('#', '')
         .replaceAll('**', '')
         .replaceAll('- ', '• ')
-        .trim();
+        .trim()
+        .split('\n')
+        .where((line) => line.trim().isNotEmpty)
+        .take(8) // Max 8 satır
+        .toList();
+    
+    return lines.join('\n');
   }
 
   Future<void> _downloadAndInstall() async {
