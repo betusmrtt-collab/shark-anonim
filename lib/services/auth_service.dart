@@ -47,16 +47,40 @@ class AuthService {
     }
   }
 
-  // Kullanıcı giriş
+  // Kullanıcı giriş (Email veya Username ile)
   Future<AuthResponse> signIn({
-    required String email,
+    required String emailOrUsername,
     required String password,
   }) async {
     try {
+      String email = emailOrUsername;
+
+      // Eğer @ yoksa, username olarak kabul et ve email'i veritabanından al
+      if (!emailOrUsername.contains('@')) {
+        AppLogger.auth.info('Username ile giriş denemesi: $emailOrUsername');
+        
+        try {
+          // Username'den email'i bul
+          final response = await _supabase
+              .from('users')
+              .select('email')
+              .eq('username', emailOrUsername)
+              .single();
+          
+          email = response['email'] as String;
+          AppLogger.auth.success('Username\'e karşılık email bulundu: $email');
+        } catch (e) {
+          AppLogger.auth.error('Username bulunamadı', e);
+          throw Exception('Kullanıcı adı bulunamadı');
+        }
+      }
+
+      // Email ile giriş yap
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
+      
       AppLogger.auth.success('Kullanıcı girişi başarılı');
       return response;
     } catch (e) {

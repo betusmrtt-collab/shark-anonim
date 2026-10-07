@@ -83,18 +83,35 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       return;
     }
 
-    // ✅ GÜVENLIK: Email validasyonu
-    final emailResult = InputSecurityService.validateEmail(_emailController.text);
-    if (!emailResult.isValid) {
-      _showMessage(emailResult.error!, isError: true);
+    final input = _emailController.text.trim();
+
+    // ✅ GÜVENLIK: Input temizleme (XSS, SQL injection koruması)
+    if (input.length < 3) {
+      _showMessage('Kullanıcı adı veya e-posta çok kısa', isError: true);
       return;
+    }
+
+    // Email mi username mi kontrol et
+    if (input.contains('@')) {
+      // Email validasyonu
+      final emailResult = InputSecurityService.validateEmail(input);
+      if (!emailResult.isValid) {
+        _showMessage(emailResult.error!, isError: true);
+        return;
+      }
+    } else {
+      // Username validasyonu (alfanumerik ve bazı özel karakterler)
+      if (!RegExp(r'^[a-zA-Z0-9._-]+$').hasMatch(input)) {
+        _showMessage('Geçersiz kullanıcı adı formatı', isError: true);
+        return;
+      }
     }
 
     setState(() => _isLoading = true);
 
     try {
       await _authService.signIn(
-        email: emailResult.sanitized!,
+        emailOrUsername: input,
         password: _passwordController.text,
       );
 
@@ -105,7 +122,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         );
       }
     } catch (e) {
-      _showMessage('Giriş başarısız: ${e.toString()}', isError: true);
+      final errorMsg = e.toString().contains('Kullanıcı adı bulunamadı')
+          ? 'Kullanıcı adı veya şifre hatalı'
+          : 'Giriş başarısız: ${e.toString()}';
+      _showMessage(errorMsg, isError: true);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -478,8 +498,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Email
-                        _buildLabel(theme, 'E-posta', badge: 'Anonim'),
+                        // Email or Username
+                        _buildLabel(theme, 'Rumuz veya E-posta', badge: 'Anonim'),
                         const SizedBox(height: 6),
                         _buildEmailField(theme),
                         const SizedBox(height: 12),
@@ -605,11 +625,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   Widget _buildEmailField(ThemeData theme) {
     return TextField(
       controller: _emailController,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text, // Email veya username için text
       style: theme.textTheme.bodyMedium,
       decoration: InputDecoration(
         prefixIcon: const Icon(
-          Icons.email,
+          Icons.person_outline,
           size: 20,
           color: Color(0xFF76777D),
         ),
@@ -618,7 +638,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           size: 20,
           color: Color(0xFF00687A),
         ),
-        hintText: 'ornek@email.com',
+        hintText: 'rumuz veya ornek@email.com',
         hintStyle: theme.textTheme.bodyMedium?.copyWith(
           color: const Color(0xFFC6C6CD),
         ),
