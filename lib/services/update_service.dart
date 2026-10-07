@@ -25,10 +25,12 @@ class UpdateService {
         final data = json.decode(response.body);
         final latestVersion = (data['tag_name'] as String).replaceAll('v', '');
 
-        print('🆕 GitHub\'daki versiyon: $latestVersion');
+        print('🆕 GitHub\'daki en son versiyon: $latestVersion');
 
-        if (_isNewerVersion(currentVersion, latestVersion)) {
-          print('✅ Yeni versiyon bulundu!');
+        // ✅ HER ZAMAN EN SON VERSİYONA GÜNCELLE
+        // Mevcut versiyon farklıysa (daha eski veya farklı bir şey) güncelle
+        if (currentVersion != latestVersion) {
+          print('✅ Versiyon farklı! Güncelleme mevcut.');
           final apkAsset = (data['assets'] as List).firstWhere(
             (asset) => asset['name'].toString().endsWith('.apk'),
             orElse: () => null,
@@ -38,14 +40,16 @@ class UpdateService {
             print('📦 APK bulundu: ${apkAsset['name']}');
             return {
               'version': latestVersion,
+              'currentVersion': currentVersion,
               'downloadUrl': apkAsset['browser_download_url'],
               'releaseNotes': data['body'] ?? 'Yeni güncelleme mevcut',
+              'publishedAt': data['published_at'] ?? '',
             };
           } else {
             print('❌ APK asset bulunamadı');
           }
         } else {
-          print('ℹ️ Versiyon güncel');
+          print('ℹ️ Versiyon güncel ($currentVersion)');
         }
       }
       return null;
@@ -55,53 +59,107 @@ class UpdateService {
     }
   }
 
-  bool _isNewerVersion(String current, String latest) {
-    final currentParts = current.split('.').map(int.parse).toList();
-    final latestParts = latest.split('.').map(int.parse).toList();
-
-    for (int i = 0; i < 3; i++) {
-      if (latestParts[i] > currentParts[i]) return true;
-      if (latestParts[i] < currentParts[i]) return false;
-    }
-    return false;
-  }
-
   Future<String?> downloadUpdate(String url, Function(double) onProgress) async {
     try {
-      final dir = await getExternalStorageDirectory();
+      print('📥 İndirme başlatılıyor: $url');
+      
+      // Android için external storage yerine cache kullan (daha güvenilir)
+      final dir = Platform.isAndroid 
+          ? await getExternalStorageDirectory()
+          : await getApplicationDocumentsDirectory();
+      
       final filePath = '${dir!.path}/anonim_update.apk';
+      print('💾 İndirme yolu: $filePath');
+
+      // Eski dosya varsa sil
+      final file = File(filePath);
+      if (await file.exists()) {
+        await file.delete();
+        print('🗑️ Eski APK silindi');
+      }
 
       final request = await http.Client().send(http.Request('GET', Uri.parse(url)));
       final bytes = <int>[];
       final total = request.contentLength ?? 0;
       var received = 0;
 
+      print('📦 Toplam boyut: ${(total / 1024 / 1024).toStringAsFixed(2)} MB');
+
       await for (var chunk in request.stream) {
         bytes.addAll(chunk);
         received += chunk.length;
         if (total > 0) {
-          onProgress(received / total);
+          final progress = received / total;
+          onProgress(progress);
+          if (received % (1024 * 1024) == 0 || received == total) {
+            print('📊 İndirme: ${(progress * 100).toStringAsFixed(1)}%');
+          }
         }
       }
 
-      final file = File(filePath);
       await file.writeAsBytes(bytes);
-
-      return filePath;
+      print('✅ Dosya kaydedildi: $filePath');
+      
+      // Dosya var mı kontrol et
+      if (await file.exists()) {
+        final size = await file.length();
+        print('📦 İndirilen dosya boyutu: ${(size / 1024 / 1024).toStringAsFixed(2)} MB');
+        return filePath;
+      } else {
+        print('❌ Dosya kaydedilemedi');
+        return null;
+      }
     } catch (e) {
-      print('İndirme hatası: $e');
+      print('❌ İndirme hatası: $e');
       return null;
     }
   }
 
-  Future<void> installApk(String filePath) async {
+  Future<bool> installApk(String filePath) async {
     try {
-      if (Platform.isAndroid) {
-        final result = await OpenFilex.open(filePath);
-        print('APK açılma durumu: ${result.type} - ${result.message}');
+      print('📱 Kurulum başlatılıyor: $filePath');
+      
+      if (!Platform.isAndroid) {
+        print('⚠️ Sadece Android destekleniyor');
+        return false;
+      }
+
+      final file = File(filePath);
+      if (!await file.exists()) {
+        print('❌ APK dosyası bulunamadı: $filePath');
+        return false;
+      }
+
+      print('🔧 OpenFilex ile açılıyor...');
+      final result = await OpenFilex.open(
+        filePath,
+        type: 'application/vnd.android.package-archive',
+      );
+      
+      print('📱 Kurulum sonucu:');
+      print('   Tip: ${result.type}');
+      print('   Mesaj: ${result.message}');
+      
+      // OpenFilex.ResultType değerlerini kontrol et
+      if (result.type == ResultType.done) {
+        print('✅ Kurulum ekranı açıldı');
+        return true;
+      } else if (result.type == ResultType.noAppToOpen) {
+        print('❌ APK açacak uygulama yok');
+        return false;
+      } else if (result.type == ResultType.fileNotFound) {
+        print('❌ Dosya bulunamadı');
+        return false;
+      } else if (result.type == ResultType.permissionDenied) {
+        print('❌ İzin reddedildi');
+        return false;
+      } else {
+        print('⚠️ Bilinmeyen durum: ${result.type}');
+        return false;
       }
     } catch (e) {
-      print('Kurulum hatası: $e');
+      print('❌ Kurulum hatası: $e');
+      return false;
     }
   }
 }
