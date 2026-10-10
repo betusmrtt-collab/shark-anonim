@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'theme.dart';
 import 'login_screen.dart';
 import 'giris_screen.dart';
-import 'home_screen.dart';
+import 'home_screen_new.dart';
 import 'services/auth_service.dart';
 import 'services/app_initializer.dart';
 import 'services/update_service.dart';
@@ -12,12 +12,12 @@ import 'widgets/mandatory_update_dialog.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Status bar ayarları - hemen uygula
+  // Status bar ayarları - Light theme için
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Color(0xFFF8F9FF),
+      systemNavigationBarColor: Colors.white,
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
@@ -36,12 +36,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Anonim',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.light(
+          primary: const Color(0xFFFF5500),
+          secondary: const Color(0xFFFF4D6D),
+          surface: const Color(0xFFF8FAFC),
+          background: const Color(0xFFF8FAFC),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        fontFamily: 'DM Sans',
+      ),
       home: const SplashScreen(),
       routes: {
         '/register': (context) => const GirisScreen(),
         '/login': (context) => const LoginScreen(),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => const HomeScreenNew(),
       },
     );
   }
@@ -108,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => isAuthenticated 
-            ? const HomeScreen() 
+            ? const HomeScreenNew() 
             : const LoginScreen(),
       ),
     );
