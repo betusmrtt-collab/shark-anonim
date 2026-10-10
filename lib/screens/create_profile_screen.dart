@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import '../home_screen.dart';
+import '../home_screen_new.dart';
 import '../config/supabase_config.dart';
 import '../utils/logger.dart';
 import '../services/file_security_service.dart';
@@ -438,7 +438,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> with SingleTi
           if (mounted) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(builder: (context) => const HomeScreenNew()),
             );
           }
         });

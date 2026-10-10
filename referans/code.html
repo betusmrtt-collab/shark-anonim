@@ -1,0 +1,126 @@
+<!DOCTYPE html><html class="light" lang="tr" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#F8FAFC;color:#0F172A;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          surface: "#F8FAFC",
+          "surface-card": "#FFFFFF",
+          "surface-muted": "#F1F5F9",
+          "primary-accent": "#FF5E00",
+          "primary-light": "#FFF3EB",
+          "secondary-accent": "#FF3366",
+          "secondary-light": "#FFF0F4",
+          "text-main": "#0F172A",
+          "text-muted": "#64748B",
+          "brand-border": "#E2E8F0"
+        },
+        borderRadius: {
+          "DEFAULT": "0.75rem",
+          "lg": "1.25rem",
+          "xl": "1.75rem",
+          "full": "9999px"
+        },
+        fontFamily: {
+          "body-md": ["DM Sans", "sans-serif"],
+          "headline": ["Bricolage Grotesque", "sans-serif"]
+        }
+      }
+    }
+  };
+</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface text-text-main font-body-md flex flex-col min-h-screen selection:bg-orange-500 selection:text-white"><header class="fixed top-0 w-full z-50 pt-safe bg-white/90 backdrop-blur-xl border-b border-brand-border shadow-[0_2px_12px_rgba(0,0,0,0.03)]"><div class="h-16 px-4 flex items-center justify-between gap-2"><div class="flex items-center gap-2.5"><div class="relative flex items-center justify-center"><div class="absolute w-9 h-9 rounded-full bg-cyan-500/20 animate-ping"></div><div class="relative w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center"><span class="material-symbols-outlined text-cyan-500 text-[18px]">bolt</span></div></div><div class="flex flex-col"><span class="text-[11px] font-bold text-cyan-600 uppercase tracking-widest leading-none">hayalet modu</span><span class="text-[14px] font-headline font-bold text-slate-900 leading-tight mt-0.5">Canlı Eşleşme</span></div></div><div class="flex items-center gap-2"><button aria-label="Hayalet Kalkanı" class="h-9 px-3 rounded-full bg-slate-900 text-white flex items-center gap-1.5 transition-all active:scale-95 shadow-sm" type="button"><span class="material-symbols-outlined text-cyan-400 text-[17px]">visibility_off</span><span class="text-[12px] font-bold text-white">Aktif</span></button><div class="h-9 px-3 rounded-full bg-slate-100 border border-slate-200/80 flex items-center gap-1.5"><span class="material-symbols-outlined text-slate-900 text-[17px]">local_fire_department</span><span class="text-[12px] font-bold text-slate-900">1.480</span></div><div class="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-slate-700 text-[19px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-28 bg-[#F8FAFC]"><div class="flex flex-col w-full px-4 pb-10 gap-5">
+<!-- 1. HAYALET YAZIŞMA VİTRİN KARTI (24 Saat Geri Sayımlı Özel Glass Kart) -->
+<section class="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-200/90 p-6 flex flex-col items-center text-center"><div class="absolute -top-12 -left-12 w-48 h-48 rounded-full bg-rose-500/10 blur-3xl pointer-events-none"></div><div class="absolute -bottom-12 -right-12 w-52 h-52 rounded-full bg-orange-500/15 blur-3xl pointer-events-none"></div><div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-600 mb-2"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span></span><span class="text-[11px] font-bold uppercase tracking-wide">Hızlı Sesli Eşleşme</span></div><h2 class="font-headline text-[26px] font-extrabold text-slate-900 tracking-tight leading-tight my-1">Konuşarak Tanış</h2><p class="text-[13px] text-slate-600 max-w-xs mb-4 leading-relaxed">Kaydırmayı bırak. Dokun ve <span class="text-orange-600 font-bold">10 saniyede</span> aynı frekansta olduğun biriyle sesli sohbete bağlan.</p><div class="relative w-48 h-48 flex items-center justify-center my-2"><div class="absolute w-48 h-48 rounded-full bg-rose-500/20 animate-ping" style="animation-duration: 3s;"></div><div class="absolute w-40 h-40 rounded-full bg-orange-500/20 animate-pulse" style="animation-duration: 2.2s;"></div><div class="absolute w-32 h-32 rounded-full bg-cyan-100 blur-sm"></div><button aria-label="Eşleşmeyi Başlat" class="relative group z-10 w-28 h-28 rounded-full bg-slate-900 flex flex-col items-center justify-center shadow-lg ring-4 ring-orange-500 transition-transform active:scale-90" id="voice-radar-btn" type="button"><span class="material-symbols-outlined text-orange-500 text-[36px] transition-transform group-hover:scale-110" style="font-variation-settings: 'FILL' 1;">mic</span><span class="text-[12px] font-headline font-extrabold text-white uppercase tracking-wider mt-0.5">BAĞLAN</span></button><div class="absolute -top-1 right-6 w-9 h-9 rounded-full overflow-hidden shadow-md ring-2 ring-rose-500"><img class="w-full h-full object-cover" data-alt="Close-up candid portrait of an energetic young woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbvyqn_1e_DyPJvFc4o08GtdMdmOXIzsS4d-bkQh6P8cULC4PuEZPNgVX4uESzzNuOUukpFA3WuA2QN7EJI12LwpwS4fiE85Ha8Yll-j12dSQn_gk7-LijYmVwIgOR2p-yomP5CmD8BjbVz9W8IGnOS_ut_4UCvwqjNliE1Z-Axm4GDCSNiGMjs-7vMZOaKKC0Qtgc0FsqB9gZGJKUCL8pCVwusjg-2pn1XexCmbtyn3hNhSumoG0A"></div><div class="absolute bottom-2 left-6 w-9 h-9 rounded-full overflow-hidden shadow-md ring-2 ring-slate-900"><img class="w-full h-full object-cover" data-alt="Portrait of an attractive stylish young man wearing wireless headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC9JF5IUwABFGc9CLu-6yBa32iSDVQO8yPvIpbScJC9Amga-fxbCqlshtXNeXIPjMJTU-Wgcu5BcfmSxmgqS8SCVyzV7JB3ZttyecSt3BvKEWASBTIlm5P3aKDt-QGoJ85lkReptp0kZ7KkevqVzIZC5CPrLxRJG2puUGD85JjOmP4uMpQo1g1GQ8qG3rcuDV3Tm6dIQKj3T1VGTaAS78HRxQ011jBu8-2rc9mJ2W_4--rc47iW5lh"></div></div><div class="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100/90 border border-slate-200"><span class="material-symbols-outlined text-orange-600 text-[18px]">graphic_eq</span><span class="text-[12px] font-semibold text-slate-700">Şu an sırada bekleyen: <strong class="text-rose-600 font-bold">2.190 kişi</strong></span></div></section><section class="relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm border border-slate-200"><div class="relative z-10 flex flex-col gap-3.5"><div class="flex items-center justify-between"><div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 text-rose-500 shadow-sm"><span class="material-symbols-outlined text-[16px] text-rose-500">timer</span><span class="text-[11px] font-bold tracking-wider uppercase text-white">24 Saat Sonra Yok Olur</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 font-mono text-[12px] font-bold"><span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span><span class="">23:59:59</span></div></div><div><h2 class="font-headline text-[22px] font-extrabold text-slate-900 leading-tight">Hayalet Yazılı Eşleşme</h2><p class="text-[13px] text-slate-600 mt-1 leading-relaxed">Fotoğrafsız, tamamen anonim başla. İki taraf da onay verene kadar sohbet tamamen gizli kalır ve süre bitince buharlaşır.</p></div><div class="grid grid-cols-3 gap-2 pt-1"><div class="flex items-center gap-1.5 p-2 rounded-xl bg-orange-50 border border-orange-200"><span class="material-symbols-outlined text-orange-600 text-[18px]">no_photography</span><span class="text-[11px] font-bold text-slate-700 leading-tight">Ekran Kaydı Engelli</span></div><div class="flex items-center gap-1.5 p-2 rounded-xl bg-rose-50 border border-rose-200"><span class="material-symbols-outlined text-rose-600 text-[18px]">delete_sweep</span><span class="text-[11px] font-bold text-slate-700 leading-tight">24s Otomatik İmha</span></div><div class="flex items-center gap-1.5 p-2 rounded-xl bg-cyan-50/80 border border-cyan-200/80"><span class="material-symbols-outlined text-cyan-600 text-[18px]">verified_user</span><span class="text-[11px] font-bold text-slate-700 leading-tight">Sıfır İz Garantisi</span></div></div><button class="group relative w-full overflow-hidden rounded-2xl bg-slate-900 p-3 sm:p-3.5 text-white shadow-lg transition-all active:scale-[0.98] border border-slate-800 flex items-center justify-between gap-3 text-left" type="button"><div class="absolute -top-12 -right-12 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div><div class="flex items-center gap-3 min-w-0 z-10"><div class="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center shrink-0 shadow-md ring-2 ring-white/10 group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-white text-[22px]">forum</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline font-bold text-[15px] text-white tracking-tight leading-tight truncate">Anonim Yazılı Eşleşme</span><span class="material-symbols-outlined text-orange-400 text-[14px]">bolt</span></div><span class="text-[11px] text-slate-400 font-medium tracking-wide mt-0.5 truncate">Uçtan uca şifreli · 24s sonra imha</span></div></div><div class="flex items-center gap-2 shrink-0 z-10"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800/90 border border-slate-700/80 text-[11px] font-semibold text-cyan-400 shadow-inner"><span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400"></span></span><span class="">980 aktif</span></div><span class="material-symbols-outlined text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all text-[18px]">arrow_forward_ios</span></div></button></div></section>
+<!-- 2. İKİLİ HIZLI MOD SEÇİCİ (MODERN SEGMENTED CONTROL) -->
+<section class="p-1.5 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center gap-1.5"><button class="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 text-white font-headline text-[13px] font-bold shadow-sm flex items-center justify-center gap-1.5 transition-all"><span class="material-symbols-outlined text-[18px] text-orange-500">mode_comment</span><span class="">Yazılı Eşleşme</span><span class="text-[10px] bg-rose-500 text-white px-1.5 py-0.5 rounded-full font-sans font-semibold">980</span></button><button class="flex-1 py-2.5 px-3 rounded-xl hover:bg-orange-50 text-slate-700 font-headline text-[13px] font-semibold flex items-center justify-center gap-1.5 transition-all border border-transparent hover:border-orange-200"><span class="material-symbols-outlined text-[18px] text-rose-600">mic</span><span class="">Sesli Radar</span><span class="text-[10px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-sans font-bold">1.420</span></button></section>
+<!-- 3. SPEED VOICE RADAR HERO (AÇIK TEMA SES ORB) -->
+
+<!-- 4. GÖRÜNMEZ GEZİNME (LIGHT WIDGET) -->
+<section class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200 flex items-center justify-between gap-3"><div class="flex items-center gap-3 min-w-0"><div class="w-11 h-11 rounded-xl bg-slate-900 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-cyan-400 text-[22px]">theater_comedy</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline font-bold text-[14px] text-slate-900 truncate">Görünmez Gezinme</span><span class="px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700 font-bold text-[10px]">Aktif</span></div><p class="text-[12px] text-slate-500 truncate">Sesin net kalsın, profil fotoğrafın karşı taraf için flulaşsın.</p></div></div><button aria-checked="true" aria-label="Görünmez Gezinmeyi Değiştir" class="relative w-12 h-7 rounded-full bg-slate-900 p-0.5 transition-colors focus:outline-none shrink-0" id="ghost-toggle" role="switch" type="button"><div class="w-6 h-6 rounded-full bg-cyan-400 shadow-sm transition-transform translate-x-5 flex items-center justify-center" id="ghost-toggle-thumb"><span class="material-symbols-outlined text-[14px] text-slate-900 font-bold">visibility_off</span></div></button></section>
+<!-- 5. CANLI PARTİ ODALARI (TEMİZ AÇIK KARTLAR & TURUNCU BUTONLAR) -->
+<section class="flex flex-col gap-3.5"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-orange-500 text-[22px]">celebration</span><h3 class="font-headline font-extrabold text-[19px] text-slate-900">Canlı Parti Odaları</h3></div><button class="text-[12px] font-bold text-orange-600 hover:text-orange-700 hover:underline" type="button">Tümünü Gör (18)</button></div><article class="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-200 p-4 flex flex-col gap-3"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-600"><span class="material-symbols-outlined text-[15px]">headphones</span><span class="text-[10px] font-bold tracking-wider uppercase">DJ YAYINI</span></div><div class="flex items-end gap-1 h-3.5"><span class="w-1 bg-rose-500 rounded-full h-2 animate-bounce"></span><span class="w-1 bg-orange-500 rounded-full h-3.5 animate-bounce" style="animation-delay: 0.15s"></span><span class="w-1 bg-rose-500 rounded-full h-2.5 animate-bounce" style="animation-delay: 0.3s"></span><span class="w-1 bg-orange-500 rounded-full h-3.5 animate-bounce" style="animation-delay: 0.45s"></span></div></div><div><h4 class="font-headline font-bold text-[17px] text-slate-900">DJ Flört Lounge &amp; Sohbet</h4><p class="text-[12px] text-slate-500 mt-0.5">Deep house ritimleriyle mikrofon açık, serbest sohbet.</p></div><div class="flex items-center justify-between pt-1"><div class="flex items-center -space-x-2"><div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-white shadow-sm"><img class="w-full h-full object-cover" data-alt="Portrait of a female DJ smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIQkOwOFwL49jG0x1DO9M8o4Nw5SgL8P9ROHvMvSl41DzUSbm6hkqYUWV4n9-gVySUgdeliiE4Twu7zhRV9n2n9e5pU7xADSARCUkSCyPcf2fK-apOCNN3W257bUVB10-4ECOWQkwcW1yVQsrv4RZsFFOHOpba2OI7V1JsdN65xHHQl0UuTIFVt6SpiPrD5Hu_9XA-dhEOZz702AOPF8OkUxnL3lb8DsT0zKnjEKJBKbeiD4USnlw9"></div><div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-white shadow-sm"><img class="w-full h-full object-cover" data-alt="Portrait of a young man laughing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKkn0imeo4QnPtNr_7PNiMm-PhY-hQyArWuQdx7SLisl78kuwk4QM2VmOJKxiQSMZ6scdoe2Gp5ivLQb6psfh9buqHdnGy7E_tIjgFnuv_mf6MAHruagkeXjJLBtbYX3YDTTy1zzSQxyS1Qv9CflgU6ohckacs3fBdMZ-6xcC2BUWxaP8QZcygP-LBW7RNei_dVJaWzhtp9yCvW8d5QYBxXM_LXoJohgYbxNaMdPNX3u8GwNSs9Z6e"></div><div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-white shadow-sm"><img class="w-full h-full object-cover" data-alt="Portrait of an artistic female creator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP2Lrs_cuNP5cXRvn5OmpThe5gB2tegKDmDcTJl1bwRfxu0WF5vj7oTJBkPByGbA9ZT2aW-pU6Qb5PlhXDk2S9I-wlR9XzRuCZc1JEYJXOCXbBCc-UZIBB13OKMSSLezSKCmB1hmB4gvMP9IcEOOpl4oQ24AZZ26P7R-N6CNIK1ZQVHBcGy24Vg-sO4a2yOxfCgLFQtSEwGpChJovV8CMzwoIf4l220Ky-yMy8hqb010yrGEpgMCDd"></div><div class="w-9 h-9 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center text-[11px] font-bold text-orange-600 shadow-sm ring-2 ring-white">+5</div></div><div class="flex items-center gap-3 text-slate-500 text-[12px] font-medium"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">group</span> 142</span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-rose-600">favorite</span> 890</span></div></div><div class="mt-1 flex items-center gap-2"><button class="flex-1 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[13px] shadow-md border border-slate-800 hover:border-orange-500/50 transition-all active:scale-95 relative overflow-hidden group flex items-center justify-between gap-2" type="button"><div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-cyan-500/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity"></div><div class="flex items-center gap-2 relative z-10"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span></span><span class="material-symbols-outlined text-orange-500 text-[18px] group-hover:scale-110 transition-transform">headphones</span><span class="tracking-wide">Odaya Katıl</span></div><div class="relative z-10 flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[10px] font-semibold text-orange-400"><span class="tracking-wider uppercase">Canlı</span><span class="material-symbols-outlined text-[13px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span></div></button><button aria-label="Alkış Gönder" class="w-10 h-10 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 flex items-center justify-center text-rose-600 transition-transform active:scale-90" type="button"><span class="material-symbols-outlined text-[20px]">celebration</span></button></div></article></section>
+<!-- 6. ICEBREAKER QUESTION & CHAT SPARK (AÇIK TEMA ANKET KARTI) -->
+
+</div>
+<script>
+  // Ghost toggle micro-interaction
+  const ghostToggle = document.getElementById('ghost-toggle');
+  const ghostThumb = document.getElementById('ghost-toggle-thumb');
+  let ghostActive = true;
+
+  if (ghostToggle && ghostThumb) {
+    ghostToggle.addEventListener('click', () => {
+      ghostActive = !ghostActive;
+      ghostToggle.setAttribute('aria-checked', ghostActive.toString());
+      if (ghostActive) {
+        ghostToggle.classList.remove('bg-slate-300');
+        ghostToggle.classList.add('bg-orange-500');
+        ghostThumb.classList.add('translate-x-5');
+        ghostThumb.innerHTML = '<span class="material-symbols-outlined text-[14px] text-orange-600 font-bold">visibility_off</span>';
+      } else {
+        ghostToggle.classList.remove('bg-orange-500');
+        ghostToggle.classList.add('bg-slate-300');
+        ghostThumb.classList.remove('translate-x-5');
+        ghostThumb.innerHTML = '<span class="material-symbols-outlined text-[14px] text-slate-500">lock_open</span>';
+      }
+    });
+  }
+
+  // Radar button animation
+  const radarBtn = document.getElementById('voice-radar-btn');
+  if (radarBtn) {
+    radarBtn.addEventListener('click', () => {
+      const originalHtml = radarBtn.innerHTML;
+      radarBtn.innerHTML = '<span class="material-symbols-outlined text-white text-[32px] animate-spin">sync</span><span class="text-[11px] font-headline font-bold text-white uppercase tracking-wider mt-0.5">Aranıyor...</span>';
+      setTimeout(() => {
+        radarBtn.innerHTML = originalHtml;
+      }, 2500);
+    });
+  }
+
+  // Icebreaker options interaction
+  const options = document.querySelectorAll('.icebreaker-btn');
+  const matchPrompt = document.getElementById('match-prompt');
+
+  options.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      options.forEach(b => {
+        b.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+        b.classList.add('bg-slate-50', 'text-slate-800', 'border-slate-200/90');
+        const span = b.querySelector('span:last-child');
+        if (span) span.className = 'text-[12px] font-bold text-slate-500 shrink-0';
+      });
+      btn.classList.remove('bg-slate-50', 'text-slate-800', 'border-slate-200/90');
+      btn.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+      const activeSpan = btn.querySelector('span:last-child');
+      if (activeSpan) activeSpan.className = 'text-[12px] font-bold text-white shrink-0';
+      if (matchPrompt) {
+        matchPrompt.classList.remove('hidden');
+      }
+    });
+  });
+</script>
+</main>
+<!-- 7. ALT NAVİGASYON (AÇIK TEMA & FERAH KART MİMARİSİ) -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-brand-border border-slate-200/80 shadow-lg pb-safe"><div class="flex items-center justify-around max-w-md mx-auto py-2.5 px-6"><button class="flex flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">explore</span><span class="text-[11px] font-medium tracking-tight">Keşfet</span></button><button class="flex flex-col items-center justify-center gap-1 font-bold transition-colors text-rose-500" type="button"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">graphic_eq</span><span class="text-[11px] font-bold tracking-tight text-rose-500">Odalar</span></button><button class="relative flex flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" type="button"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">chat_bubble</span><span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white"></span></div><span class="text-[11px] font-medium tracking-tight">Mesajlar</span></button><button class="flex flex-col items-center justify-center gap-1 text-slate-400 hover:text-slate-600 transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">person</span><span class="text-[11px] font-medium tracking-tight">Profil</span></button></div></nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

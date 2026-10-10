@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'services/auth_service.dart';
 import 'services/input_security_service.dart';
-import 'home_screen.dart';
+import 'home_screen_new.dart';
 import 'screens/create_profile_screen.dart';
 
 class GirisScreen extends StatefulWidget {

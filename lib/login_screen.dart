@@ -4,7 +4,7 @@ import 'services/input_security_service.dart';
 import 'services/update_service.dart';
 import 'widgets/update_dialog.dart';
 import 'widgets/mandatory_update_dialog.dart';
-import 'home_screen.dart';
+import 'home_screen_new.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const HomeScreenNew()),
         );
       }
     } catch (e) {
