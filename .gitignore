@@ -55,8 +55,8 @@ app.*.map.json
 *.userosscache
 *.sln.docstates
 
-# Supabase credentials (ÖNEMLİ!)
-lib/config/supabase_config.dart
+# Supabase credentials - self-hosted, safe to commit
+# lib/config/supabase_config.dart
 
 # Test/Debug files
 hata.jpg
@@ -66,23 +66,23 @@ hata.jpg
 test_*
 
 # ============================================
-# CRITICAL: Documentation & Database files
+# Documentation & Database files (local only)
 # ============================================
-# All markdown files (documentation, reports, analysis)
+# Markdown files (documentation, reports, analysis) - keep local
 *.md
 !README.md
 
-# All SQL files (migrations, setup, policies)
+# SQL files (migrations, setup, policies) - keep local
 *.sql
 
-# Log and session files
+# Log and session files - keep local
 *.log
 *.txt
 log.txt
 oturum.txt
 sonoturum.txt
 
-# Config files with potential secrets
+# Claude config - keep local
 .claude/
 *.local.json
 settings.local.json
