@@ -1,0 +1,106 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Environment files
+.env
+*.env
+.env.local
+.env.*.local
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Supabase credentials - self-hosted, safe to commit
+# lib/config/supabase_config.dart
+
+# Test/Debug files
+hata.jpg
+*.jpg
+*.png
+*.jpeg
+test_*
+
+# ============================================
+# Documentation & Database files (local only)
+# ============================================
+# Markdown files (documentation, reports, analysis) - keep local
+*.md
+!README.md
+
+# SQL files (migrations, setup, policies) - keep local
+*.sql
+
+# Log and session files - keep local
+*.log
+*.txt
+log.txt
+oturum.txt
+sonoturum.txt
+
+# Claude config - keep local
+.claude/
+*.local.json
+settings.local.json
+
+# Android keystore & signing
+*.jks
+*.keystore
+key.properties
+google-services.json
+
+# iOS signing & provisioning
+*.mobileprovision
+*.p12
+*.cer
+*.certSigningRequest
+ios/Runner/GoogleService-Info.plist
+
+# Firebase & Backend configs
+firebase_options.dart
+google-services.json
+GoogleService-Info.plist
