@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="tr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<meta content="mobile_stack" name="shell-type">
+<title>Sesli Eşleşme Radarı</title>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background-color: #FAFAFC;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      .pb-safe { padding-bottom: max(env(safe-area-inset-bottom, 16px), 16px); }
+      .pt-safe { padding-top: max(env(safe-area-inset-top, 20px), 20px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    
+    /* 1. Radar / Sonar Akıcı Animasyonları */
+    @keyframes radarRipple {
+      0% {
+        transform: scale(0.65);
+        opacity: 0.95;
+      }
+      50% {
+        opacity: 0.45;
+      }
+      100% {
+        transform: scale(2.05);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sonarSweep {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes centerGlowBreathe {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.45), 0 0 35px 2px rgba(0, 229, 255, 0.25);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 0 14px rgba(0, 229, 255, 0), 0 0 50px 8px rgba(0, 229, 255, 0.45);
+        transform: scale(1.035);
+      }
+    }
+
+    @keyframes floatSmooth1 {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(0, -9px, 0) scale(1.02);
+      }
+    }
+
+    @keyframes floatSmooth2 {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(0, 8px, 0) scale(0.98);
+      }
+    }
+
+    @keyframes floatSmooth3 {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(0.9);
+      }
+      50% {
+        transform: translate3d(-4px, -6px, 0) scale(0.93);
+      }
+    }
+
+    @keyframes pingSlow {
+      0% { transform: scale(1); opacity: 0.9; }
+      70% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* 2. Ses Spektrumu / Equalizer Animasyonları */
+    @keyframes soundWaveBar {
+      0%, 100% {
+        height: 6px;
+      }
+      35% {
+        height: 24px;
+      }
+      65% {
+        height: 14px;
+      }
+      85% {
+        height: 28px;
+      }
+    }
+
+    /* 3. Shimmer & Beacon Animasyonları */
+    @keyframes shimmerMove {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(120%);
+      }
+    }
+
+    @keyframes beaconGlow {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 8px 1px rgba(0, 229, 255, 0.8), 0 0 0 0 rgba(0, 229, 255, 0.5);
+      }
+      50% {
+        opacity: 0.6;
+        box-shadow: 0 0 16px 3px rgba(0, 229, 255, 0.4), 0 0 0 6px rgba(0, 229, 255, 0);
+      }
+    }
+
+    @keyframes beaconOrange {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 8px 1px rgba(255, 85, 0, 0.8), 0 0 0 0 rgba(255, 85, 0, 0.5);
+      }
+      50% {
+        opacity: 0.5;
+        box-shadow: 0 0 14px 2px rgba(255, 85, 0, 0.3), 0 0 0 5px rgba(255, 85, 0, 0);
+      }
+    }
+
+    /* Helper utility classes for 60fps hardware accelerated animations */
+    .radar-pulse-ring-1 {
+      animation: radarRipple 4s cubic-bezier(0.15, 0.7, 0.3, 1) infinite;
+      will-change: transform, opacity;
+    }
+    .radar-pulse-ring-2 {
+      animation: radarRipple 4s cubic-bezier(0.15, 0.7, 0.3, 1) infinite 1.35s;
+      will-change: transform, opacity;
+    }
+    .radar-pulse-ring-3 {
+      animation: radarRipple 4s cubic-bezier(0.15, 0.7, 0.3, 1) infinite 2.7s;
+      will-change: transform, opacity;
+    }
+
+    .sonar-beam-sweep {
+      animation: sonarSweep 6s linear infinite;
+      will-change: transform;
+      transform-origin: 50% 50%;
+    }
+
+    .center-avatar-breathe {
+      animation: centerGlowBreathe 3s ease-in-out infinite;
+      will-change: transform, box-shadow;
+    }
+
+    .avatar-float-1 {
+      animation: floatSmooth1 5.4s ease-in-out infinite;
+      will-change: transform;
+    }
+    .avatar-float-2 {
+      animation: floatSmooth2 4.8s ease-in-out infinite 0.7s;
+      will-change: transform;
+    }
+    .avatar-float-3 {
+      animation: floatSmooth3 6.2s ease-in-out infinite 1.4s;
+      will-change: transform;
+    }
+
+    .shimmer-animated {
+      animation: shimmerMove 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .beacon-cyan-pulse {
+      animation: beaconGlow 2s ease-in-out infinite;
+    }
+    .beacon-orange-pulse {
+      animation: beaconOrange 1.8s ease-in-out infinite;
+    }
+
+    .eq-bar {
+      will-change: height;
+      animation: soundWaveBar 1.2s ease-in-out infinite alternate;
+    }
+  </style>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&amp;family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              obsidian: "#0B0F17",
+              porcelain: "#FAFAFC",
+              pure: "#FFFFFF",
+              cyan: "#00E5FF",
+              orange: "#FF5500",
+              pink: "#FF2E7E",
+              surfaceLight: "#F2F4F8",
+              borderGleam: "rgba(226, 232, 240, 0.8)"
+            }
+          },
+          fontFamily: {
+            headline: ["'Bricolage Grotesque'", "sans-serif"],
+            body: ["'Plus Jakarta Sans'", "sans-serif"]
+          },
+          boxShadow: {
+            'luxury-soft': '0 20px 40px -15px rgba(11, 15, 23, 0.07), 0 0 1px 1px rgba(11, 15, 23, 0.04)',
+            'radar-node': '0 10px 25px -4px rgba(255, 46, 126, 0.22), 0 4px 10px -2px rgba(0, 0, 0, 0.04)',
+            'radar-cyan': '0 10px 25px -4px rgba(0, 229, 255, 0.3), 0 4px 10px -2px rgba(0, 0, 0, 0.04)',
+            'core-glow': '0 0 45px rgba(0, 229, 255, 0.35), 0 20px 30px -10px rgba(11, 15, 23, 0.15)',
+            'pill-highlight': '0 4px 20px -2px rgba(255, 85, 0, 0.25)',
+            'floating-dock': '0 24px 48px -12px rgba(11, 15, 23, 0.12), 0 2px 10px rgba(0, 0, 0, 0.04)'
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#FAFAFC] font-body text-brand-obsidian flex flex-col min-h-screen select-none antialiased overflow-x-hidden">
+<!-- Ambient Light Gradients Background Glows with subtle pulse -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0"><div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[380px] h-[380px] bg-slate-200/40 blur-3xl rounded-full pointer-events-none"></div></div>
+<!-- Sleek High-End Mobile Navigation Header -->
+<header class="fixed top-0 inset-x-0 z-50 pt-safe bg-[#FAFAFC]/85 backdrop-blur-2xl border-b border-brand-obsidian/[0.04] transition-all">
+<div class="h-14 px-4 flex items-center justify-between max-w-md mx-auto">
+<!-- Back Button -->
+<button aria-label="Geri" class="w-10 h-10 rounded-full flex items-center justify-center bg-white/90 shadow-sm border border-brand-obsidian/5 text-brand-obsidian active:scale-90 hover:bg-white transition-all duration-200" onclick="history.back()">
+<span class="material-symbols-outlined text-[21px]">arrow_back</span>
+</button>
+<!-- Center Title -->
+<div class="flex flex-col items-center justify-center">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-brand-cyan beacon-cyan-pulse"></span>
+<span class="font-headline font-bold text-[16px] tracking-tight text-brand-obsidian">Canlı Ses Radarı</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-widest text-[#FF5500]">Frekans Eşleşmesi</span>
+</div>
+<!-- Live Online Pill Capsule -->
+<div class="flex items-center gap-1.5 bg-white shadow-sm border border-brand-obsidian/5 px-2.5 py-1.5 rounded-full hover:border-emerald-300 transition-colors">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="text-[11px] font-bold text-brand-obsidian tracking-tight">3.480 <span class="text-brand-obsidian/60 font-normal">canlı</span></span>
+</div>
+</div>
+</header>
+<!-- Main Content Space -->
+<main class="flex-1 flex flex-col pt-20 pb-safe max-w-md w-full mx-auto relative z-10 px-4">
+<!-- Top Headline Description -->
+<div class="mt-2 text-center flex flex-col items-center"><div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/90 mb-2 cursor-default"><span class="w-1.5 h-1.5 rounded-full bg-brand-obsidian animate-pulse"></span><span class="text-[11px] font-medium text-brand-obsidian/75 tracking-wider uppercase">Canlı Frekans Taraması</span></div><h2 class="font-headline font-bold text-[24px] leading-tight tracking-tight text-brand-obsidian">Sana En Yakın Ruhu Dinle</h2><p class="text-[13px] text-brand-obsidian/60 mt-1.5 max-w-[280px]">Ses tınısı ve zevklerinle eşleşen kullanıcılar taranıyor</p></div>
+<!-- HERO HYPNOTIC SONAR RADAR ARENA -->
+<div class="relative w-full h-[320px] my-1 flex items-center justify-center overflow-visible"><div class="absolute w-[280px] h-[280px] rounded-full border border-slate-200/60 pointer-events-none"></div><div class="absolute w-[200px] h-[200px] rounded-full border border-slate-200/80 pointer-events-none"></div><div class="absolute w-[120px] h-[120px] rounded-full border border-slate-200 pointer-events-none"></div><div class="absolute w-[280px] h-[280px] rounded-full overflow-hidden pointer-events-none z-0" style="animation: 9s linear 0s infinite normal none running sonarSweep; transform-origin: 50% 50%;"><div class="w-full h-full rounded-full" style="background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, rgba(6,182,212,0.15) 340deg, rgba(6,182,212,0.4) 360deg);"></div></div><div class="absolute top-3 right-8 z-20 flex flex-col items-center cursor-pointer group active:scale-95 transition-transform duration-200"><div class="relative p-0.5 rounded-full bg-white shadow-sm border border-slate-200"><img class="w-11 h-11 rounded-full object-cover" data-alt="Derin portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdzcSFp91X7rXbLmryh0PALCYEiivBYqbcWttwF76_K7R8AYZVsb4EQMtTMCaN-PXe7FmNOKYsKawtHx9alEfNGkAe-ETOQ5ujwERZb29BA8YwRWNwkn6dGXQA2AV8_7_YIrks4BFctVUSSv13HbNka9LWFfIwqdAZa8DnqNUxAezGTj8yEPLs7CqbTK9C3pn8ZG0T-4-pnFoG1BLKY0GNey-o9TWN3xRQptz3WU_NSHMi7A1ueYYu"></div><span class="mt-1 text-[11px] font-semibold text-brand-obsidian/80 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full border border-brand-obsidian/5 shadow-sm">Derin, 24</span></div><div class="absolute bottom-3 left-6 z-20 flex flex-col items-center cursor-pointer group active:scale-95 transition-transform duration-200"><div class="relative p-0.5 rounded-full bg-white shadow-sm border border-slate-200"><img class="w-11 h-11 rounded-full object-cover" data-alt="Can portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ7V0bjJr7znoKd0PthyrTekE2X4aayV4noAR130ihWw9B-CqCuUa4pGXUpHMQxp3HtWGSH7yqoPmVQo-zxxkBx5f4MnGFRHBPmXN00eYmH97Bahdm5P6UO9wfaoEaEicp4w394jDlQ_RX93zNJY2w2Eks38ajmbS02dSUMjzueWqeIXkMRF9H9av1EPFiXxvFMw0wbHf2hRZ4Jdqw-euoxWbJEyzqzawQmzJkJQIjibAET5dVdZhR"></div><span class="mt-1 text-[11px] font-semibold text-brand-obsidian/80 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full border border-brand-obsidian/5 shadow-sm">Can, 26</span></div><div class="absolute top-12 left-8 z-10 flex flex-col items-center opacity-60 cursor-pointer active:scale-95 transition-transform duration-200"><div class="p-0.5 rounded-full bg-white border border-slate-200 shadow-sm"><img class="w-9 h-9 rounded-full object-cover" data-alt="Ece portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASBDtEircfG9YXb5wjQ8ln3GQEjSc7c4zLpkJRUV27MoMDHXGAvH2V01CcFityhnqX_Nscr3pHf4DY7pSIqsSC0MqkcrVZUhzCmKYvYf_0NxGKmSxABcMG5cEvKyLEIaN0EsO3Q_Vy0P6vuW6n76A8YDpjgv9Ti8L4DYapmzEZVz76taC8loif3SaZMjY7oCHU5O0xG_5D90jf8_eEozaWeskJWtMsA6AWZOAy8i9H8_j8gfHNNixI"></div><span class="mt-1 text-[10px] font-medium text-brand-obsidian/60 bg-white/80 px-1.5 py-0.5 rounded-full border border-brand-obsidian/5">Ece, 23</span></div><div class="relative z-30 flex flex-col items-center"><div class="relative p-1 rounded-full bg-slate-200 center-avatar-breathe transition-all"><div class="w-24 h-24 rounded-full bg-white p-1 flex items-center justify-center"><div class="relative w-full h-full rounded-full overflow-hidden"><img class="w-full h-full object-cover" data-alt="User portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbwRSxGCZs3aS1m7EsbqoCKsFokz40ab6WudQuT8GHDxDb1iDPBVrD859E3nyov_lMX7RnJSfdVrokUuZYVEII_-YRM-a2iPNcma9-dMsNwy7vz0vCb7z3d8v4yOas2UsLVyKv2C8XycZlYktFPbVtFMsWt8lOiRRC3NyJtoZo7z2Yubkb7xcersO3EKVY7ciYpTsE78RbznAIE8EWeMa0XOOIf6NJiO0Bz9j-DP5K3N8vIfVtI-H8"></div></div></div><div class="absolute -bottom-3 bg-brand-obsidian text-white px-3.5 py-1 rounded-full shadow-md flex items-center gap-1.5 border border-white/10 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span class="text-[11px] font-semibold tracking-tight">Frekans Taranıyor</span></div></div></div>
+<!-- HIGH-FIDELITY AUDIO SPECTRUM & MATCH STATUS CARD -->
+<div class="bg-white rounded-2xl p-4 shadow-luxury-soft border border-brand-obsidian/5 relative overflow-hidden mt-1 transition-all duration-300 hover:shadow-xl"><div class="flex items-center justify-between mb-3 gap-2"><div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-brand-obsidian shadow-sm border border-brand-obsidian/5 flex-shrink-0"><span class="material-symbols-outlined text-[20px]">graphic_eq</span></div><div class="flex flex-col min-w-0"><h3 class="font-headline font-bold text-[15px] text-brand-obsidian tracking-tight truncate" id="status-title">Aday Bulundu! Sinyal Kuruluyor...</h3><div class="flex items-center gap-1 text-[11px] text-brand-obsidian/60 mt-0.5"><span class="material-symbols-outlined text-[13px] text-brand-obsidian/40">schedule</span><span class="">Tahmini süre: <strong class="text-brand-obsidian font-semibold">~6 sn</strong></span></div></div></div><div aria-hidden="true" class="flex items-end gap-[3px] h-8 px-2 py-1 bg-slate-50 rounded-lg border border-slate-200/70 flex-shrink-0"><span class="w-[2.5px] bg-brand-obsidian/70 rounded-full eq-bar" style="animation-duration: 0.65s; height: 10px;"></span><span class="w-[2.5px] bg-brand-obsidian/40 rounded-full eq-bar" style="animation-duration: 0.85s; height: 16px;"></span><span class="w-[2.5px] bg-brand-obsidian rounded-full eq-bar" style="animation-duration: 0.5s; height: 22px;"></span><span class="w-[2.5px] bg-brand-obsidian/60 rounded-full eq-bar" style="animation-duration: 0.7s; height: 14px;"></span><span class="w-[2.5px] bg-brand-obsidian/80 rounded-full eq-bar" style="animation-duration: 0.9s; height: 18px;"></span></div></div><div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex relative"><div class="bg-brand-obsidian h-full rounded-full transition-all duration-700 ease-out" id="radar-progress" style="width: 96%;"></div></div><div class="mt-2.5 flex items-center justify-between text-[11px] text-brand-obsidian/65 font-medium"><span class="">Frekans: <strong class="text-brand-obsidian font-semibold tracking-tight" id="live-freq">528 Hz Rezonans</strong></span><span class="text-brand-obsidian/75 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Akustik Uyum: Yüksek</span></div></div><div class="bg-white/95 rounded-2xl p-3 shadow-luxury-soft border border-brand-obsidian/5 relative overflow-hidden mt-2.5 flex items-center justify-between gap-3 transition-all duration-200 hover:border-brand-obsidian/10"><div class="flex items-center gap-2.5 min-w-0"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF5500]/15 to-[#FF2E7E]/15 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] flex-shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">bolt</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><h4 class="font-headline font-bold text-[13px] text-brand-obsidian tracking-tight truncate">Radar Boost</h4><span class="text-[9px] font-bold tracking-wide uppercase px-1.5 py-0.5 rounded-full bg-slate-100 text-brand-obsidian/75 border border-slate-200/80">2x Hız</span></div><p class="text-[11px] text-brand-obsidian/60 truncate mt-0.5">Eşleşme süresini 3 saniyeye indir</p></div></div><button type="button" class="flex-shrink-0 inline-flex items-center gap-1 bg-brand-obsidian hover:bg-black text-white px-3 py-1.5 rounded-full active:scale-95 transition-all shadow-sm"><span class="material-symbols-outlined text-[13px] text-brand-cyan">diamond</span><span class="font-headline font-bold text-[11px] tracking-tight text-white">Hızlandır</span></button></div>
+<!-- FLOATING PREFERENCES & TAG MATRIX with Modern Touch Feedback -->
+
+<!-- BOTTOM ACTION DOCK -->
+<div class="mt-auto pt-3 pb-2 flex flex-col gap-2.5">
+<!-- Quick Pre-Mute Toggle Glass Bar -->
+<div class="bg-white/95 backdrop-blur-xl px-4 py-3 rounded-2xl flex items-center justify-between shadow-luxury-soft border border-brand-obsidian/5 transition-all hover:border-brand-obsidian/10">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-brand-obsidian transition-colors duration-200" id="mute-icon-box">
+<span class="material-symbols-outlined text-[20px] transition-transform duration-200" id="mute-icon">mic</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[13px] font-bold text-brand-obsidian leading-snug">Mikrofonu Önceden Sustur</span>
+<span class="text-[11px] text-brand-obsidian/60">Bağlandığın anda sessiz başlarsın</span>
+</div>
+</div>
+<!-- Toggle button -->
+<button aria-pressed="false" class="w-12 h-7 bg-slate-200 rounded-full p-1 transition-all duration-200 relative flex items-center focus:outline-none active:scale-95" id="mute-toggle-btn" type="button">
+<span class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0" id="mute-toggle-thumb"></span>
+</button>
+</div>
+<!-- Abort / Cancel Main Pill Action Button with subtle active recoil -->
+<button class="w-full bg-brand-obsidian hover:bg-black text-white active:scale-[0.97] transition-all duration-200 py-3.5 px-6 rounded-full shadow-luxury-soft flex items-center justify-center gap-2 group border border-white/10" onclick="history.back()" type="button">
+<span class="material-symbols-outlined text-white/60 group-hover:text-brand-pink group-hover:rotate-90 transition-all duration-300 text-[18px]">close</span>
+<span class="font-headline font-bold text-[14px] tracking-wide text-white">Aramayı İptal Et</span>
+</button>
+</div>
+</main>
+<!-- Interactive Logic -->
+<script>
+    // Microphone Pre-Mute Toggle
+    const muteBtn = document.getElementById('mute-toggle-btn');
+    const muteThumb = document.getElementById('mute-toggle-thumb');
+    const muteIcon = document.getElementById('mute-icon');
+    const muteBox = document.getElementById('mute-icon-box');
+    let isMuted = false;
+
+    if (muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        isMuted = !isMuted;
+        muteBtn.setAttribute('aria-pressed', isMuted);
+        if (isMuted) {
+          muteBtn.classList.remove('bg-slate-200');
+          muteBtn.classList.add('bg-brand-orange');
+          muteThumb.classList.add('translate-x-5');
+          muteIcon.textContent = 'mic_off';
+          muteBox.classList.remove('bg-slate-100', 'text-brand-obsidian');
+          muteBox.classList.add('bg-[#FF5500]/15', 'text-brand-orange');
+        } else {
+          muteBtn.classList.add('bg-slate-200');
+          muteBtn.classList.remove('bg-brand-orange');
+          muteThumb.classList.remove('translate-x-5');
+          muteIcon.textContent = 'mic';
+          muteBox.classList.add('bg-slate-100', 'text-brand-obsidian');
+          muteBox.classList.remove('bg-[#FF5500]/15', 'text-brand-orange');
+        }
+      });
+    }
+
+    // Dynamic Search Status & Telemetry Simulation
+    const progressBar = document.getElementById('radar-progress');
+    const statusTitle = document.getElementById('status-title');
+    const liveFreq = document.getElementById('live-freq');
+    const states = [
+      { title: 'Ses Frekansın Eşleştiriliyor...', w: '48%', freq: '432 Hz Harmoni' },
+      { title: 'Ortak İlgi Alanları Taranıyor...', w: '76%', freq: '440 Hz Akustik Dalga' },
+      { title: 'Aday Bulundu! Sinyal Kuruluyor...', w: '96%', freq: '528 Hz Rezonans' }
+    ];
+    let stateIdx = 0;
+
+    setInterval(() => {
+      stateIdx = (stateIdx + 1) % states.length;
+      if (progressBar && statusTitle) {
+        progressBar.style.width = states[stateIdx].w;
+        statusTitle.textContent = states[stateIdx].title;
+        if (liveFreq) {
+          liveFreq.textContent = states[stateIdx].freq;
+        }
+      }
+    }, 2800);
+  </script>
+
+
+</body></html>
